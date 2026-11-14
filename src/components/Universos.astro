@@ -15,7 +15,7 @@ import { categories } from '../config/media';
         <li data-reveal-item>
           <a class="cat" href={c.href ?? wa(`Oi, Miss! Quero ver ${c.ask ?? c.title.toLowerCase()}.`)} target={c.href ? undefined : '_blank'} rel={c.href ? undefined : 'noopener'}>
             <span class:list={['ph', i % 2 ? 'pink' : 'blue']}><img src={c.img} alt={c.alt} loading="lazy" width="400" height="400" /></span>
-            <span class="lbl">{c.title}</span>
+            <span class="lbl">{c.title}{c.brands && <small>{c.brands}</small>}</span>
           </a>
         </li>
       ))}
@@ -42,6 +42,7 @@ import { categories } from '../config/media';
   .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out); }
   .cat:hover .ph img { transform: scale(1.06) rotate(-1.5deg); }
   .lbl { font-weight: 500; font-size: 0.98rem; line-height: 1.25; }
+  .lbl small { display: block; margin-top: 2px; font-weight: 400; font-size: 0.82em; color: var(--ink-3); }
   .ask-ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: var(--ink); color: #fff; font-weight: 500; font-size: 0.95rem; text-align: center; padding: 12px; transition: background 0.3s; }
   .ask-ph :global(svg) { width: 30px; height: 30px; color: #3fd17a; }
   .ask:hover .ask-ph { background: var(--pink-ink); }

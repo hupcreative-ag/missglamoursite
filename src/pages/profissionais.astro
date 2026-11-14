@@ -44,8 +44,11 @@ const details: Record<string, { h2: string; intro: string; groups: { h3?: string
   },
   depilacao: {
     h2: 'Produtos para depilação',
-    intro: 'Cera e acessórios pra quem trabalha com depilação. O estoque muda rápido, então chama no WhatsApp e a gente te diz o que tem hoje.',
-    groups: [],
+    intro: 'Linha completa de depilação das marcas Depil Bella e Depilflax, pra quem atende cliente e pra quem depila em casa. Tem cera roll-on, cera quente, aquecedor e cuidados pós-depilação.',
+    groups: [
+      { h3: 'Depil Bella', items: ['Cera roll-on', 'Refil roll-on', 'Aquecedor de cera', 'Óleo removedor', 'Loção adstringente', 'Lenços pós-depilação'] },
+      { h3: 'Depilflax', items: ['Cera quente em barra', 'Cera em tabletes', 'Refil roll-on', 'Cera de micro-ondas', 'Folhas prontas', 'Óleo pós-depilação'] },
+    ],
     msg: 'Oi, Miss! Quero saber o que vocês têm pra depilação: ',
   },
 };
@@ -55,6 +58,7 @@ const faq = [
   { q: 'Onde comprar insumo de unha e cílios em Salvador?', a: `Na Miss Glamour, na ${store.address.street}, centro de Salvador. Ou pelo WhatsApp com entrega no mesmo dia.` },
   { q: 'A entrega é no mesmo dia?', a: 'É sim. Pedido até 10h chega hoje em Salvador, Lauro de Freitas e Simões Filho.' },
   { q: 'Quanto custa a entrega?', a: 'Depende do bairro. A gente passa o valor antes de fechar o pedido.' },
+  { q: 'Quais marcas de cera de depilação vocês têm?', a: 'Depil Bella e Depilflax. Tem cera roll-on e refil, cera quente, aquecedor e produtos pós-depilação.' },
   { q: 'Tem preço especial pra compra maior?', a: 'Tem valores especiais pra compras maiores. Manda sua lista no WhatsApp que a gente faz o orçamento.' },
   { q: 'Posso retirar na loja?', a: 'Pode. De segunda a sexta das 8h às 18h e no sábado das 8h às 16h.' },
   { q: 'Quais as formas de pagamento?', a: 'Pix, cartão de crédito, débito e dinheiro.' },

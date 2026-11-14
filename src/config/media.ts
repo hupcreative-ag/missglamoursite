@@ -18,10 +18,10 @@ export const proLines: ProLine[] = [
   { id: 'maquiagem', title: 'Maquiagem', icon: 'brush', img: '/img/pro/make.webp', alt: 'Paleta de sombras nude na mão', items: 'Paleta, blush, gloss e delineador' },
   { id: 'ferramentas', title: 'Alicates e ferramentas', icon: 'scissors', img: '/img/pro/ferramentas.webp', alt: 'Alicate de cutícula profissional na embalagem', items: 'Alicate, espátula e lixa' },
   // foto de banco gratuito (Unsplash, licença livre p/ uso comercial): unsplash.com/photos/d8ae041b1582
-  { id: 'depilacao', title: 'Depilação', icon: 'wax', img: '/img/pro/depilacao.webp', alt: 'Aquecedor de cera de depilação com cera derretida', items: 'Cera e acessórios pra depilação' },
+  { id: 'depilacao', title: 'Depilação', icon: 'wax', img: '/img/pro/depilacao.webp', alt: 'Aquecedor de cera de depilação com cera derretida', items: 'Depil Bella e Depilflax' },
 ];
 
-export interface Category { title: string; img: string; alt: string; href?: string; ask?: string }
+export interface Category { title: string; img: string; alt: string; href?: string; ask?: string; brands?: string }
 
 /** Pra você: o que tem além dos insumos */
 export const categories: Category[] = [
@@ -32,7 +32,7 @@ export const categories: Category[] = [
   { title: 'Brincos e acessórios', img: '/img/cat/acessorios.webp', alt: 'Brincos dourados em gota sobre seda branca', ask: 'os brincos e acessórios' },
   { title: 'Relógios', img: '/img/cat/relogios.webp', alt: 'Relógios de pulseira de couro', ask: 'os relógios' },
   { title: 'Perfumes', img: '/img/cat/perfumes.webp', alt: 'Frascos de perfume', ask: 'os perfumes' },
-  { title: 'Autocuidado', img: '/img/cat/autocuidado.webp', alt: 'Creme para as mãos sobre fundo azul', ask: 'os produtos de autocuidado' },
+  { title: 'Cuidados pessoais', brands: 'Labotrat e mais', img: '/img/cat/autocuidado.webp', alt: 'Creme para as mãos sobre fundo azul', ask: 'os produtos de cuidados pessoais da Labotrat' },
   { title: 'Decoração de festa', img: '/img/natal/capa-velas-lg.webp', alt: 'Velas de Natal acesas', href: '#temporada' },
 ];
 
