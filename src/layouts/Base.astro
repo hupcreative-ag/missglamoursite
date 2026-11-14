@@ -6,10 +6,20 @@ import Ribbon from '../components/Ribbon.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileBar from '../components/MobileBar.astro';
+// fontes que aparecem na primeira tela: pré-carregadas pra evitar troca de letra (CLS)
+import bellezaWoff2 from '@fontsource/belleza/files/belleza-latin-400-normal.woff2?url';
+import jostWoff2 from '@fontsource-variable/jost/files/jost-latin-wght-normal.woff2?url';
 
-interface Props { title: string; description: string; image?: string }
-const { title, description, image = '/img/loja/placa.webp' } = Astro.props;
+interface Props { title: string; description: string; image?: string; imageAlt?: string; noindex?: boolean }
+const {
+  title,
+  description,
+  image = '/og.jpg',
+  imageAlt = 'Miss Glamour: insumos de beleza, acessórios e decoração no centro de Salvador',
+  noindex = false,
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, store.url).toString();
+const ogImage = new URL(image, store.url).toString();
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -18,7 +28,8 @@ const jsonLd = {
   name: store.name,
   slogan: store.tagline,
   url: store.url,
-  image: new URL(image, store.url).toString(),
+  logo: `${store.url}/icon-512.png`,
+  image: [`${store.url}/og.jpg`, `${store.url}/img/loja/placa.webp`],
   telephone: '+55 71 99628-5221',
   priceRange: '$',
   address: {
@@ -44,6 +55,15 @@ const jsonLd = {
     itemListElement: ['Nail design', 'Lash design', 'Sobrancelha', 'Maquiagem', 'Depilação'].map((name) => ({ '@type': 'OfferCatalog', name })),
   },
 };
+const webSite = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${store.url}/#site`,
+  name: store.name,
+  url: store.url,
+  inLanguage: 'pt-BR',
+  publisher: { '@id': `${store.url}/#loja` },
+};
 const storeConfig = { hours: store.hours, cutoff: store.sameDayCutoff };
 ---
 <!doctype html>
@@ -53,18 +73,36 @@ const storeConfig = { hours: store.hours, cutoff: store.sameDayCutoff };
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preload" href={bellezaWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jostWoff2} as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#97d3e0" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Miss Glamour" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, store.url).toString()} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <meta name="geo.region" content="BR-BA" />
     <meta name="geo.placename" content="Salvador" />
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <meta name="geo.position" content={`${store.geo.lat};${store.geo.lng}`} />
+    <meta name="ICBM" content={`${store.geo.lat}, ${store.geo.lng}`} />
+    <meta name="format-detection" content="telephone=no" />
+    <script type="application/ld+json" set:html={JSON.stringify([jsonLd, webSite])} />
     <slot name="head" />
     <script id="store-config" type="application/json" set:html={JSON.stringify(storeConfig)} />
   </head>

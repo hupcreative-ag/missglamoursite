@@ -4,7 +4,7 @@ import { wa, store } from '../config/site';
 const aisles = ['corredor-6', 'corredor-3', 'corredor-7', 'corredor-1', 'corredor-5', 'corredor-4'];
 ---
 <section id="loja" class="loja">
-  <img class="bg" src="/img/loja/placa.webp" alt="Fachada da Miss Glamour na Avenida Sete de Setembro, em Salvador" loading="lazy" width="1350" height="1800" />
+  <img class="bg" src="/img/loja/placa.webp" alt="Fachada da Miss Glamour na Avenida Sete de Setembro, em Salvador" loading="lazy" decoding="async" width="1000" height="1333" />
   <div class="wrap top">
     <div class="copy">
       <h2 class="display h2" data-split>
@@ -39,7 +39,7 @@ const aisles = ['corredor-6', 'corredor-3', 'corredor-7', 'corredor-1', 'corredo
   </div>
 
   <ul class="aisles" data-drag aria-label="Fotos da loja">
-    {aisles.map((a) => <li><img src={`/img/loja/${a}.webp`} alt="Corredor da loja Miss Glamour" loading="lazy" width="1012" height="1800" /></li>)}
+    {aisles.map((a) => <li><img src={`/img/loja/${a}.webp`} alt="Corredor da loja Miss Glamour" loading="lazy" decoding="async" width="560" height="996" /></li>)}
   </ul>
 
 

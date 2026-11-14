@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { wa } from '../config/site';
+---
+<Base title="Página não encontrada | Miss Glamour" description="Essa página não existe mais. Veja os insumos de beleza e a decoração da Miss Glamour, no centro de Salvador." noindex>
+  <section class="nf">
+    <div class="wrap">
+      <img src="/img/mascote-busto-sm.webp" alt="" width="520" height="529" class="m" />
+      <h1 class="display">Essa página saiu da vitrine</h1>
+      <p class="lead">O link pode ter mudado. Escolhe por onde seguir:</p>
+      <ul class="go">
+        <li><a href="/"><Icon name="arrow" />Página inicial</a></li>
+        <li><a href="/profissionais/"><Icon name="arrow" />Insumos pra profissional</a></li>
+        <li><a href="/natal/"><Icon name="arrow" />Decoração de Natal</a></li>
+      </ul>
+      <a class="btn btn-wa" href={wa('Oi, Miss! Vim pelo site e não achei uma página.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Falar no WhatsApp</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { padding: var(--sec-y) 0; background: var(--blue); text-align: center; }
+  .m { width: 180px; margin: 0 auto 8px; transform: scaleX(-1); }
+  h1 { font-size: clamp(2.2rem, 6vw, 4rem); }
+  .lead { margin: 14px auto 22px; color: var(--ink); }
+  .go { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 24px; }
+  .go a { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px; border-radius: 999px; background: #fff; text-decoration: none; font-weight: 500; }
+  .go :global(svg) { width: 18px; height: 18px; color: var(--pink-ink); }
+</style>
