@@ -1,21 +1,16 @@
 ---
 /**
- * Selo de entrega rápida: adesivo rosa brilhante com texto girando em volta
+ * Selo de entrega rápida: adesivo rosa chapado com texto girando no meio da faixa rosa
  * e uma caixa 3D (isométrica, com fita rosa) saindo em disparada no centro.
  * Tudo em SVG: nítido em qualquer tela e leve.
  */
 interface Props { class?: string }
 const { class: cls } = Astro.props;
-const ring = 'ENTREGA RÁPIDA EM SALVADOR ✦ PEDIU ATÉ 10H ✦ ';
+const ring = 'ENTREGA RÁPIDA ✦ SALVADOR E REGIÃO ✦ ';
 ---
-<div class:list={['badge', cls]} role="img" aria-label="Pediu até 10h, chega hoje. Entrega rápida em Salvador.">
-  <svg viewBox="-4 -4 208 212" aria-hidden="true">
+<div class:list={['badge', cls]} role="img" aria-label="Pedidos até 10h chegam hoje. Entrega rápida em Salvador e região.">
+  <svg viewBox="-4 -20 208 228" aria-hidden="true">
     <defs>
-      <radialGradient id="db-pink" cx="35%" cy="28%" r="80%">
-        <stop offset="0" stop-color="#f6a3c0" />
-        <stop offset="0.55" stop-color="#e2668f" />
-        <stop offset="1" stop-color="#c2477a" />
-      </radialGradient>
       <linearGradient id="db-top" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="#e6f8fb" />
         <stop offset="1" stop-color="#b4e3ec" />
@@ -28,25 +23,28 @@ const ring = 'ENTREGA RÁPIDA EM SALVADOR ✦ PEDIU ATÉ 10H ✦ ';
         <stop offset="0" stop-color="#a6dce7" />
         <stop offset="1" stop-color="#76c1d0" />
       </linearGradient>
-      <path id="db-ring" d="M100,100 m-79,0 a79,79 0 1,1 158,0 a79,79 0 1,1 -158,0" />
+      <path id="db-ring" d="M100,100 m-73,0 a73,73 0 1,1 146,0 a73,73 0 1,1 -146,0" />
     </defs>
 
     <!-- adesivo com borda recortada -->
     <g class="sticker-body">
       <circle cx="100" cy="104" r="98" fill="rgba(120,30,70,0.18)" />
       <circle cx="100" cy="100" r="98" fill="#fff" />
-      <circle cx="100" cy="100" r="92" fill="url(#db-pink)" />
-      <ellipse cx="72" cy="46" rx="44" ry="18" fill="#fff" opacity="0.22" transform="rotate(-28 72 46)" />
+      <circle cx="100" cy="100" r="92" fill="#e2668f" />
     </g>
 
     <!-- texto girando -->
     <g class="spin">
-      <text font-family="Jost Variable, Jost, sans-serif" font-weight="800" font-size="14" fill="#fff" letter-spacing="0.5"><textPath href="#db-ring" textLength="492" lengthAdjust="spacing">{ring}</textPath></text>
+      <text font-family="Jost Variable, Jost, sans-serif" font-weight="700" font-size="13" fill="#fff" letter-spacing="1.2"><textPath href="#db-ring" textLength="456" lengthAdjust="spacing">{ring}</textPath></text>
     </g>
 
     <!-- miolo branco com a caixa 3D -->
     <circle cx="100" cy="100" r="63" fill="#fff" />
-    <g transform="translate(100 64) scale(0.46) translate(-92 -108)"><g class="box">
+    <text font-family="Jost Variable, Jost, sans-serif" font-weight="700" font-size="10.5" fill="#b0336a" letter-spacing="0.9" x="100" y="77" text-anchor="middle">PEDIDOS ATÉ 10H</text>
+    <line x1="86" y1="85.5" x2="114" y2="85.5" stroke="#e2668f" stroke-width="1.4" stroke-linecap="round" />
+    <text font-family="Jost Variable, Jost, sans-serif" font-weight="800" font-size="23" fill="#3f454d" letter-spacing="0.3" x="100" y="110" text-anchor="middle">CHEGAM</text>
+    <text font-family="Jost Variable, Jost, sans-serif" font-weight="800" font-size="23" fill="#3f454d" letter-spacing="0.3" x="100" y="133" text-anchor="middle">HOJE!</text>
+    <g transform="translate(96 2) scale(0.5) translate(-92 -108)"><g class="box">
       <ellipse cx="104" cy="140" rx="30" ry="6" fill="rgba(32,35,40,0.12)" />
       <!-- linhas de velocidade -->
       <g stroke-linecap="round" stroke-width="5">
@@ -64,20 +62,13 @@ const ring = 'ENTREGA RÁPIDA EM SALVADOR ✦ PEDIU ATÉ 10H ✦ ';
       <polyline points="76,90 104,76 132,90" fill="none" stroke="#fff" stroke-width="1.6" opacity="0.9" stroke-linejoin="round" />
       <line x1="104" y1="104" x2="104" y2="136" stroke="#fff" stroke-width="1.2" opacity="0.55" />
     </g></g>
-    <text font-family="Jost Variable, Jost, sans-serif" font-weight="800" font-size="23" fill="#3f454d" x="100" y="108" text-anchor="middle">CHEGA</text>
-    <text font-family="Jost Variable, Jost, sans-serif" font-weight="800" font-size="23" fill="#3f454d" x="100" y="130" text-anchor="middle">HOJE!</text>
-    <text font-family="Belleza, sans-serif" font-size="11.5" fill="#202328" letter-spacing="0.6" x="100" y="147" text-anchor="middle">PEDIU ATÉ 10H</text>
-    <line x1="72" y1="151" x2="128" y2="151" stroke="#202328" stroke-width="1" />
 
   </svg>
 </div>
 
 <style>
-  .badge { width: 100%; aspect-ratio: 1; }
+  .badge { width: 100%; aspect-ratio: 208 / 228; }
   svg { width: 100%; height: 100%; overflow: visible; }
-  .ring-text { font-family: var(--sans); font-weight: 800; font-size: 14px; fill: #fff; letter-spacing: 0.04em; }
-  .big { font-family: var(--sans); font-weight: 800; font-size: 22px; fill: #3f454d; letter-spacing: 0.01em; }
-  .small { font-family: var(--display); font-size: 11px; fill: #202328; letter-spacing: 0.06em; }
   .spin { transform-origin: 100px 100px; animation: spin 26s linear infinite; }
   .box { animation: zoom 2.8s var(--ease-in-out) infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }

@@ -15,7 +15,7 @@ const natal: Season = {
     href: '/natal',
   },
   hero: {
-    title: ['Sua bancada', 'cheia pro', 'fim de ano'],
+    title: ['Sua bancada', 'pronta para', 'o fim de ano'],
     lead: 'Insumos de beleza, acessórios e decoração de Natal no centro de Salvador',
     badge: 'Dezembro lota a agenda',
   },

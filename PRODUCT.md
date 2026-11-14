@@ -30,7 +30,7 @@ The site has a permanent base plus switchable layers: a seasonal campaign layer 
 
 ## Operating Context
 
-- Store: Av. Sete de Setembro, 624, Edifício Totonia, loja 632, Dois de Julho (Praça da Piedade), Salvador/BA (from CNPJ 42.530.362/0001-34 registration; confirm on Google Maps).
+- Store: Av. Sete de Setembro, 624 - 216 - Centro, Salvador - BA, 40060-001 (exactly as the Google Business Profile; CNPJ 42.530.362/0001-34). Near Praça da Piedade.
 - Hours: Mon–Fri 8h–18h, Sat 8h–16h. Sundays and holidays: special hours.
 - WhatsApp: (71) 99628-5221.
 - Delivery: own delivery by route; orders until 10h leave the same day, after that next day. Coverage: Salvador, Simões Filho, Lauro de Freitas. Fee varies by region and is informed on WhatsApp at order time (no fee table published). Also Uber Flash and pickup in store.

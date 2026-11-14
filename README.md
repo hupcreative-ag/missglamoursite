@@ -35,5 +35,5 @@ npm run build    # gera /dist
 
 ## Pendências antes de publicar
 - Conferir com a loja: formas de pagamento (o FAQ cita crédito, débito, Pix e dinheiro), se há entrega aos sábados, horário de domingo/feriado.
-- Conferir o pin do mapa (endereço do catálogo: Av. Sete de Setembro, 624, Ed. Totonia, Loja 002).
+- Endereço segue o perfil do Google: Av. Sete de Setembro, 624 - 216 - Centro, Salvador - BA, 40060-001. Se mudar no Google, mudar em `src/config/site.ts`.
 - Preços e fotos do catálogo vêm do PDF "Catálogo Natal 2026"; revisar antes de cada atualização de estoque.

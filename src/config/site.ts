@@ -19,17 +19,19 @@ export const store = {
   whatsapp: '5571996285221',
   whatsappLabel: '(71) 99628-5221',
   instagram: 'missglamourav7',
+  /** Endereço idêntico ao perfil da loja no Google (Google Meu Negócio). Não alterar sem atualizar lá também. */
   address: {
-    street: 'Av. Sete de Setembro, 624',
-    complement: 'Ed. Totonia, Loja 002',
-    district: 'Barris',
+    street: 'Av. Sete de Setembro, 624 - 216',
+    district: 'Centro',
     city: 'Salvador',
     state: 'BA',
+    postalCode: '40060-001',
     reference: 'Perto da Praça da Piedade',
   },
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Miss+Glamour+Av.+Sete+de+Setembro+624+Salvador+BA',
-  mapsEmbed:
-    'https://www.google.com/maps?q=Av.+Sete+de+Setembro,+624,+Salvador+-+BA&z=17&output=embed',
+  geo: { lat: -12.9829622, lng: -38.5156011 },
+  /** Link direto pro perfil da loja no Google Maps */
+  mapsUrl: 'https://maps.google.com/?cid=2729939255608775218',
+  mapsEmbed: 'https://www.google.com/maps?q=-12.9829622,-38.5156011&z=17&output=embed',
   /** 0 = domingo … 6 = sábado. null = horário especial. */
   hours: {
     0: null,
@@ -56,4 +58,5 @@ export function wa(message?: string) {
   return message ? `${base}?text=${encodeURIComponent(message)}` : base;
 }
 
-export const fullAddress = `${store.address.street}, ${store.address.complement}, ${store.address.district}, ${store.address.city}/${store.address.state}`;
+/** Mesmo formato do Google: Av. Sete de Setembro, 624 - 216 - Centro, Salvador - BA, 40060-001 */
+export const fullAddress = `${store.address.street} - ${store.address.district}, ${store.address.city} - ${store.address.state}, ${store.address.postalCode}`;

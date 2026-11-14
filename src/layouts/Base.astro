@@ -23,7 +23,8 @@ const jsonLd = {
   priceRange: '$',
   address: {
     '@type': 'PostalAddress',
-    streetAddress: `${store.address.street}, ${store.address.complement}`,
+    streetAddress: `${store.address.street} - ${store.address.district}`,
+    postalCode: store.address.postalCode,
     addressLocality: store.address.city,
     addressRegion: store.address.state,
     addressCountry: 'BR',
@@ -36,6 +37,7 @@ const jsonLd = {
   sameAs: [`https://instagram.com/${store.instagram}`],
   paymentAccepted: 'Pix, cartão de crédito, cartão de débito, dinheiro',
   hasMap: store.mapsUrl,
+  geo: { '@type': 'GeoCoordinates', latitude: store.geo.lat, longitude: store.geo.lng },
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Insumos de beleza',

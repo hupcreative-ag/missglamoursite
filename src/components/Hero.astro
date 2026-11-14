@@ -126,18 +126,19 @@ const rows = [0, 1, 2].map((r) => {
   @media (max-width: 960px) {
     .hero { min-height: 0; }
     .hero-grid { grid-template-columns: 1fr; gap: 0; }
-    .copy { padding: 30px 0 0; }
+    .copy { padding: 28px 0 0; z-index: 3; }
     .veil { background: linear-gradient(180deg, var(--blue) 0%, var(--blue) 40%, rgba(151, 211, 224, 0.7) 58%, rgba(151, 211, 224, 0) 82%); }
-    /* a mascote sobe e passa por cima do canto do botão: dá profundidade */
-    .stage { height: clamp(260px, 70vw, 420px); min-height: 0; margin-top: clamp(-96px, -18vw, -64px); margin-inline: calc(-1 * var(--gutter)); pointer-events: none; }
-    .tilt { right: -2%; width: min(74%, 400px); }
+    /* a mascote fica logo abaixo do botão; só a ponta das alças passa por trás dele */
+    .stage { height: clamp(230px, 60vw, 380px); min-height: 0; margin-top: -14px; margin-inline: calc(-1 * var(--gutter)); pointer-events: none; }
+    .tilt { right: 2%; width: min(60%, 340px); }
     .mascot { transform: scaleX(-1); }
-    .badge-wrap { left: var(--gutter); right: auto; top: auto; bottom: 14%; width: clamp(150px, 40vw, 200px); }
+    .badge-wrap { left: var(--gutter); right: auto; top: auto; bottom: 10%; width: clamp(160px, 44vw, 210px); }
   }
   @media (max-width: 560px) {
-    .title { font-size: clamp(2.7rem, 12vw, 3.25rem); line-height: 0.98; }
-    .lead { margin: 14px 0 22px; font-size: 1.08rem; line-height: 1.45; max-width: 30ch; text-wrap: balance; }
-    .ctas .btn-wa { --h: 56px; padding: 0 24px; }
+    /* título ocupa a largura da tela, sem sobra vazia à direita */
+    .title { font-size: clamp(2.8rem, 15vw, 3.9rem); line-height: 0.96; }
+    .lead { margin: 14px 0 22px; font-size: 1.1rem; line-height: 1.45; max-width: none; text-wrap: pretty; }
+    .ctas .btn-wa { --h: 56px; width: 100%; padding: 0 24px; }
     .link-loja { display: none; }
     .reel { inset: 42% -40% -6%; gap: 10px; }
     .row ul { gap: 10px; padding-right: 10px; }
