@@ -12,13 +12,13 @@ export interface ProLine { id: string; title: string; icon: IconName; img?: stri
 
 /** Linhas pra profissional (home e /profissionais) */
 export const proLines: ProLine[] = [
-  { id: 'nail', title: 'Nail design', icon: 'polish', img: '/img/pro/nail.webp', alt: 'Esmalte em gel sendo aplicado com pincel', items: 'Gel, base, top e esmalte' },
-  { id: 'lash', title: 'Lash design', icon: 'lash', img: '/img/pro/lash.webp', alt: 'Bandeja de tufos de cílios para extensão', items: 'Cílios, tufos e lash lifting' },
-  { id: 'sobrancelha', title: 'Sobrancelha', icon: 'tweezers', img: '/img/pro/sobrancelha.webp', alt: 'Caixa de henna para sobrancelha', items: 'Henna, pinça e lápis' },
-  { id: 'maquiagem', title: 'Maquiagem', icon: 'brush', img: '/img/pro/make.webp', alt: 'Paleta de sombras nude na mão', items: 'Paleta, blush, gloss e delineador' },
-  { id: 'ferramentas', title: 'Alicates e ferramentas', icon: 'scissors', img: '/img/pro/ferramentas.webp', alt: 'Alicate de cutícula profissional na embalagem', items: 'Alicate, espátula e lixa' },
-  // foto de banco gratuito (Unsplash, licença livre p/ uso comercial): unsplash.com/photos/d8ae041b1582
-  { id: 'depilacao', title: 'Depilação', icon: 'wax', img: '/img/pro/depilacao.webp', alt: 'Aquecedor de cera de depilação com cera derretida', items: 'Depil Bella e Depilflax' },
+  { id: 'nail', title: 'Nail design', icon: 'polish', img: '/img/pro/nail.webp', alt: 'Esmalte em gel sendo aplicado com pincel', items: 'Gel, base, top, esmalte e mais' },
+  { id: 'lash', title: 'Lash design', icon: 'lash', img: '/img/pro/lash.webp', alt: 'Bandeja de tufos de cílios para extensão', items: 'Cílios, tufos, lash lifting e mais' },
+  { id: 'sobrancelha', title: 'Sobrancelha', icon: 'tweezers', img: '/img/pro/sobrancelha.webp', alt: 'Caixa de henna para sobrancelha', items: 'Henna, pinça, lápis e mais' },
+  { id: 'maquiagem', title: 'Maquiagem', icon: 'brush', img: '/img/pro/maquiagem-paleta.webp', alt: 'Paleta de sombras nude na mão', items: 'Paleta, blush, gloss e mais' },
+  { id: 'ferramentas', title: 'Alicates e ferramentas', icon: 'scissors', img: '/img/pro/ferramentas.webp', alt: 'Alicate de cutícula profissional na embalagem', items: 'Alicate, espátula, lixa e mais' },
+  // fotos de produto dos sites oficiais das marcas de depilação vendidas na loja
+  { id: 'depilacao', title: 'Depilação', icon: 'wax', img: '/img/pro/depilacao-produtos.webp', alt: 'Ceras depilatórias quentes, óleo pós-depilação e dolomita', items: 'Cera, aquecedor e mais' },
 ];
 
 export interface Category { title: string; img: string; alt: string; href?: string; ask?: string; brands?: string }
@@ -32,7 +32,8 @@ export const categories: Category[] = [
   { title: 'Brincos e acessórios', img: '/img/cat/acessorios.webp', alt: 'Brincos dourados em gota sobre seda branca', ask: 'os brincos e acessórios' },
   { title: 'Relógios', img: '/img/cat/relogios.webp', alt: 'Relógios de pulseira de couro', ask: 'os relógios' },
   { title: 'Perfumes', img: '/img/cat/perfumes.webp', alt: 'Frascos de perfume', ask: 'os perfumes' },
-  { title: 'Cuidados pessoais', brands: 'Labotrat e mais', img: '/img/cat/autocuidado.webp', alt: 'Creme para as mãos sobre fundo azul', ask: 'os produtos de cuidados pessoais da Labotrat' },
+  // foto de produto do site oficial da Labotrat (marca vendida na loja)
+  { title: 'Cuidados pessoais', img: '/img/cat/cuidados-labotrat.webp', alt: 'Kit de banho com sabonete líquido, hidratante e esfoliante de melancia', ask: 'os produtos de cuidados pessoais' },
   { title: 'Decoração de festa', img: '/img/natal/capa-velas-lg.webp', alt: 'Velas de Natal acesas', href: '#temporada' },
 ];
 
@@ -67,6 +68,14 @@ export const proGallery: Record<string, Photo[]> = {
     'Máscara de cílios rosa',
     'Blush compacto em tom terroso',
     'Gloss labial vermelho',
+  ]),
+  depilacao: g('depilacao', [
+    'Cera depilatória hidrossolúvel em pote',
+    'Cera depilatória quente em confetes',
+    'Refil de cera roll-on',
+    'Aquecedor de cera digital',
+    'Aquecedor de cera roll-on duplo',
+    'Loção pós-depilação',
   ]),
   ferramentas: g('ferramentas', [
     'Tesoura de cutícula profissional na embalagem',

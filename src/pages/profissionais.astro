@@ -11,7 +11,7 @@ import { proLines, proGallery } from '../config/media';
 const details: Record<string, { h2: string; intro: string; groups: { h3?: string; items: string[] }[]; msg: string }> = {
   nail: {
     h2: 'Materiais para nail designer',
-    intro: 'Esmalte em gel, gel sólido, base, top coat, tips e decoração pra alongamento e manutenção de unhas. Marcas como D&Z, Dafu, Risqué e Impala passam pela prateleira, com reposição toda semana.',
+    intro: 'Esmalte em gel, gel sólido, base, top coat, tips, decoração e muito mais pra alongamento e manutenção de unhas. Marcas como D&Z, Dafu, Risqué e Impala passam pela prateleira, com reposição toda semana.',
     groups: [
       { h3: 'Géis e esmaltes', items: ['Esmalte em gel', 'Gel sólido', 'Gel base', 'Esmalte magnético e ímã', 'Esmaltes tradicionais'] },
       { h3: 'Preparação e acabamento', items: ['Base', 'Top coat', 'Tips e unhas postiças', 'Pedrarias e decoração', 'Luminária de bancada'] },
@@ -20,35 +20,32 @@ const details: Record<string, { h2: string; intro: string; groups: { h3?: string
   },
   lash: {
     h2: 'Insumos para lash designer',
-    intro: 'Cílios pra todas as técnicas de extensão, tufos, cílios postiços e kits de lash lifting. Tudo pra você atender sem parar a agenda esperando entrega de fora.',
+    intro: 'Cílios pra todas as técnicas de extensão, tufos, cílios postiços, kits de lash lifting e muito mais. Tudo pra você atender sem parar a agenda esperando entrega de fora.',
     groups: [{ items: ['Tufos pra extensão', 'Cílios em bandeja', 'Cílios postiços', 'Kit de lash lifting', 'Espuma de limpeza'] }],
     msg: 'Oi, Miss! Sou lash designer e quero fazer um pedido: ',
   },
   sobrancelha: {
     h2: 'Produtos para design de sobrancelha',
-    intro: 'Henna, pinça profissional e lápis pra montar ou repor o kit de quem trabalha com design de sobrancelha.',
+    intro: 'Henna, pinça profissional, lápis e muito mais pra montar ou repor o kit de quem trabalha com design de sobrancelha.',
     groups: [{ items: ['Henna', 'Pinça profissional', 'Lápis'] }],
     msg: 'Oi, Miss! Sou designer de sobrancelha e quero fazer um pedido: ',
   },
   maquiagem: {
-    h2: 'Maquiagem para maquiadoras',
-    intro: 'Linhas completas de maquiagem pra quem atende cliente e pra quem ama make. Paleta, blush, gloss, delineador e máscara de cílios, com novidade toda semana.',
+    h2: 'Maquiagem pra todo dia',
+    intro: 'Make pra usar no dia a dia e pra arrasar na festa. Paleta, blush, gloss, delineador, máscara de cílios e muito mais, com novidade toda semana.',
     groups: [{ items: ['Paleta de sombras', 'Blush', 'Gloss e lip oil', 'Batom', 'Delineador', 'Máscara de cílios', 'Glitter', 'Pincéis'] }],
-    msg: 'Oi, Miss! Sou maquiadora e quero fazer um pedido: ',
+    msg: 'Oi, Miss! Quero ver as maquiagens: ',
   },
   ferramentas: {
     h2: 'Alicates e ferramentas para manicure',
-    intro: 'Alicate de cutícula, espátula, lixa e pinça de qualidade profissional, incluindo a linha Staleks. Ferramenta boa faz diferença no resultado e na sua mão.',
+    intro: 'Alicate de cutícula, espátula, lixa, pinça e muito mais com qualidade profissional, incluindo a linha Staleks. Ferramenta boa faz diferença no resultado e na sua mão.',
     groups: [{ items: ['Alicate de cutícula', 'Espátula', 'Lixa', 'Pinça'] }],
     msg: 'Oi, Miss! Quero ver alicates e ferramentas: ',
   },
   depilacao: {
     h2: 'Produtos para depilação',
-    intro: 'Linha completa de depilação das marcas Depil Bella e Depilflax, pra quem atende cliente e pra quem depila em casa. Tem cera roll-on, cera quente, aquecedor e cuidados pós-depilação.',
-    groups: [
-      { h3: 'Depil Bella', items: ['Cera roll-on', 'Refil roll-on', 'Aquecedor de cera', 'Óleo removedor', 'Loção adstringente', 'Lenços pós-depilação'] },
-      { h3: 'Depilflax', items: ['Cera quente em barra', 'Cera em tabletes', 'Refil roll-on', 'Cera de micro-ondas', 'Folhas prontas', 'Óleo pós-depilação'] },
-    ],
+    intro: 'Cera e acessórios pra quem atende cliente e pra quem depila em casa. Tem cera roll-on, cera quente, aquecedor, cuidados pós-depilação e muito mais.',
+    groups: [{ items: ['Cera roll-on e refil', 'Cera quente', 'Aquecedor de cera', 'Folhas prontas', 'Óleo e loção pós-depilação'] }],
     msg: 'Oi, Miss! Quero saber o que vocês têm pra depilação: ',
   },
 };
@@ -58,7 +55,6 @@ const faq = [
   { q: 'Onde comprar insumo de unha e cílios em Salvador?', a: `Na Miss Glamour, na ${store.address.street}, centro de Salvador. Ou pelo WhatsApp com entrega no mesmo dia.` },
   { q: 'A entrega é no mesmo dia?', a: 'É sim. Pedido até 10h chega hoje em Salvador, Lauro de Freitas e Simões Filho.' },
   { q: 'Quanto custa a entrega?', a: 'Depende do bairro. A gente passa o valor antes de fechar o pedido.' },
-  { q: 'Quais marcas de cera de depilação vocês têm?', a: 'Depil Bella e Depilflax. Tem cera roll-on e refil, cera quente, aquecedor e produtos pós-depilação.' },
   { q: 'Tem preço especial pra compra maior?', a: 'Tem valores especiais pra compras maiores. Manda sua lista no WhatsApp que a gente faz o orçamento.' },
   { q: 'Posso retirar na loja?', a: 'Pode. De segunda a sexta das 8h às 18h e no sábado das 8h às 16h.' },
   { q: 'Quais as formas de pagamento?', a: 'Pix, cartão de crédito, débito e dinheiro.' },
@@ -113,7 +109,7 @@ const facts = [
     <div class="wrap">
       <nav class="crumbs" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><span>Profissionais</span></nav>
       <h1 class="display">Fornecedor de insumos pra profissional da beleza em Salvador</h1>
-      <p class="lead">A Miss Glamour fornece insumos e materiais pra nail designer, lash designer, designer de sobrancelha, maquiadora e depiladora. A loja fica na Av. Sete de Setembro e o pedido feito até 10h pelo WhatsApp chega no mesmo dia em Salvador, Lauro de Freitas e Simões Filho.</p>
+      <p class="lead">A Miss Glamour fornece insumos e materiais pra nail designer, lash designer, designer de sobrancelha e depiladora, e tem maquiagem pra todo mundo. A loja fica na Av. Sete de Setembro e o pedido feito até 10h pelo WhatsApp chega no mesmo dia em Salvador, Lauro de Freitas e Simões Filho.</p>
       <ul class="facts">{facts.map((f) => <li><Icon name={f.icon} /><span>{f.text}</span></li>)}</ul>
       <a class="btn btn-wa" href={wa('Oi, Miss! Sou profissional e quero fazer um pedido: ')} target="_blank" rel="noopener" data-hero-cta>
         <span class="wa-dot" aria-hidden="true"></span> Pedir pelo WhatsApp
@@ -138,10 +134,10 @@ const facts = [
           <div class="cat-copy">
             <h2 class="display h2"><Icon name={l.icon} class="h-ico" />{d.h2}</h2>
             <p class="intro">{d.intro}</p>
-            {d.groups.map((g) => (
+            {d.groups.map((g, gi) => (
               <div class="group">
                 {g.h3 && <h3>{g.h3}</h3>}
-                <ul class="items">{g.items.map((it) => <li>{it}</li>)}</ul>
+                <ul class="items">{g.items.map((it) => <li>{it}</li>)}{gi === d.groups.length - 1 && <li class="more-items">e muito mais</li>}</ul>
               </div>
             ))}
             <a class="btn btn-wa" href={wa(d.msg)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Pedir {l.title.toLowerCase()}</a>
@@ -211,6 +207,7 @@ const facts = [
   .group { margin-bottom: 16px; }
   .group h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
   .items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .items .more-items { background: transparent; border: 1px dashed rgba(32, 35, 40, 0.3); color: var(--ink-2); }
   .items li { min-height: 40px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 999px; background: #fff; font-size: 0.95rem; }
   .cat .btn { margin-top: 10px; }
   /* galeria: mostra a variedade de cada linha */

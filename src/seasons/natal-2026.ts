@@ -21,7 +21,7 @@ const natal: Season = {
   },
   feature: {
     title: 'O Natal chegou na Miss',
-    lead: 'Pisca-pisca, cascata, vela, árvore e laço pra deixar a casa e o studio no clima',
+    lead: 'Pisca-pisca, cascata, vela, árvore, laço e muito mais pra deixar a casa e o studio no clima',
     honesty: 'Chega uma vez só e não tem reposição',
     countdownTo: '2026-12-24T18:00:00-03:00',
     countdownLabel: 'pra noite de Natal',
@@ -48,7 +48,7 @@ const natal: Season = {
     slug: 'natal',
     title: 'Decoração de Natal 2026',
     intro:
-      'Pisca-pisca, cascata de LED, árvore, vela e laço num lugar só, no centro de Salvador. Tem peça pra deixar a casa no clima e pra vitrine e fachada chamarem atenção.',
+      'Pisca-pisca, cascata de LED, árvore, vela, laço e muito mais num lugar só, no centro de Salvador. Tem peça pra deixar a casa no clima e pra vitrine e fachada chamarem atenção.',
     categories: [
       {
         id: 'luminosa',

@@ -44,3 +44,4 @@ npm run build    # gera /dist
 - **SEO:** sitemap automático (`@astrojs/sitemap`), `robots.txt`, imagens de compartilhamento `public/og.jpg` e `public/og-natal.jpg`, schema Store/WebSite no `Base.astro`. O endereço `.pages.dev` responde com `noindex`.
 - **Cloudflare (painel):** Always Use HTTPS, TLS mínimo 1.2, TLS 1.3, Early Hints, HTTP/3, 0-RTT e Web Analytics ligados. Rocket Loader desligado (quebraria a CSP e as animações). Rastreadores de IA liberados (bom para aparecer em respostas de IA).
 - **Endereço e horário:** iguais ao perfil do Google Meu Negócio. Se mudar um, mude o outro.
+- **Trocar uma foto:** sempre salve com **nome novo** (ex.: `maquiagem-paleta.webp`) e atualize o caminho em `src/config/media.ts`. Imagens ficam 30 dias em cache no navegador e no Cloudflare; com o mesmo nome, a foto antiga continua aparecendo.
