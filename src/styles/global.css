@@ -62,6 +62,8 @@ body[data-season='natal'] {
 *::after { box-sizing: border-box; }
 
 html {
+  /* fundo escuro no html: o "puxar" além do fim da página mostra o tom do rodapé, não branco */
+  background: var(--ink);
   -webkit-text-size-adjust: 100%;
   scroll-padding-top: 96px;
 }

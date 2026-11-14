@@ -45,6 +45,7 @@ import { wa, store } from '../config/site';
     .mbar[data-hidden] { transform: translateY(140%); opacity: 0; pointer-events: none; }
     .mbar .btn-wa { flex: 1; --h: 52px; }
     .mbar .btn-light { --h: 52px; width: 52px; padding: 0; background: var(--blue-soft); }
-    :global(body) { padding-bottom: 86px; }
+    /* espaço pra barra fixa fica dentro do rodapé (escuro), não no fundo branco da página */
+    :global(.ft) { padding-bottom: calc(36px + 86px) !important; }
   }
 </style>
