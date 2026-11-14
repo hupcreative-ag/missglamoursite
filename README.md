@@ -37,3 +37,10 @@ npm run build    # gera /dist
 - Conferir com a loja: formas de pagamento (o FAQ cita crédito, débito, Pix e dinheiro), se há entrega aos sábados, horário de domingo/feriado.
 - Endereço segue o perfil do Google: Av. Sete de Setembro, 624 - 216 - Centro, Salvador - BA, 40060-001. Se mudar no Google, mudar em `src/config/site.ts`.
 - Preços e fotos do catálogo vêm do PDF "Catálogo Natal 2026"; revisar antes de cada atualização de estoque.
+
+## Hospedagem, SEO e segurança
+- **Hospedagem:** Cloudflare Pages, projeto `missglamoursite` (repo `hupcreative-ag/missglamoursite`, branch `main` publica sozinha). Domínio oficial `missglamour.com.br`; `www` redireciona 301 pro domínio (Redirect Rule no Cloudflare).
+- **Cabeçalhos:** `public/_headers` (CSP, HSTS, X-Frame-Options, cache longo de `/_astro` e `/img`). Ao adicionar script ou serviço externo (ex.: pixel, mapa), liberar o domínio na CSP.
+- **SEO:** sitemap automático (`@astrojs/sitemap`), `robots.txt`, imagens de compartilhamento `public/og.jpg` e `public/og-natal.jpg`, schema Store/WebSite no `Base.astro`. O endereço `.pages.dev` responde com `noindex`.
+- **Cloudflare (painel):** Always Use HTTPS, TLS mínimo 1.2, TLS 1.3, Early Hints, HTTP/3, 0-RTT e Web Analytics ligados. Rocket Loader desligado (quebraria a CSP e as animações). Rastreadores de IA liberados (bom para aparecer em respostas de IA).
+- **Endereço e horário:** iguais ao perfil do Google Meu Negócio. Se mudar um, mude o outro.
