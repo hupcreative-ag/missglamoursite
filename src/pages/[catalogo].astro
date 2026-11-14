@@ -16,7 +16,7 @@ export function getStaticPaths() {
 const c = catalog!;
 const all = c.categories.flatMap((cat) => cat.products);
 const total = all.length;
-const pageUrl = `${store.url}/${c.slug}`;
+const pageUrl = `${store.url}/${c.slug}/`;
 
 // pra quem é: casa, loja e fachada (intenção de busca local)
 const uses = [
