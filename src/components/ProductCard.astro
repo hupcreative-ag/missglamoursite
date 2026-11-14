@@ -1,0 +1,44 @@
+---
+/**
+ * Card de vitrine. Sem botão por produto (decisão do cliente):
+ * o pedido acontece pelo "fale com a gente" geral da seção.
+ */
+import type { Product } from '../seasons/types';
+interface Props { product: Product; dark?: boolean }
+const { product: p, dark = false } = Astro.props;
+---
+<article class:list={['pc', { dark, out: p.soldOut }]}>
+  <div class="pc-img">
+    <img src={`/img/natal/${p.image}.webp`} alt={p.name} loading="lazy" width="800" height="800" />
+    {p.voltage && <span class="volt">{p.voltage}</span>}
+    {p.soldOut && <span class="sold">Esgotado</span>}
+  </div>
+  <div class="pc-body">
+    <h4>{p.name}</h4>
+    <p class="detail">{p.detail}</p>
+    <p class:list={['price', { ask: !p.price && !p.soldOut }]}>{p.soldOut ? 'Esgotado' : p.price ?? 'Valor sob consulta'}</p>
+  </div>
+</article>
+
+<style>
+  .pc { display: flex; flex-direction: column; height: 100%; border-radius: var(--radius); overflow: hidden; background: #fff; color: var(--ink); border: 1px solid var(--line); transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out); }
+  .pc:hover { transform: translateY(-4px); }
+  .pc.dark { background: var(--night-2); color: #f3eee6; border-color: rgba(255, 255, 255, 0.08); }
+  .pc-img { position: relative; aspect-ratio: 1; background: #fff; overflow: hidden; }
+  .dark .pc-img { background: #0b0f14; }
+  /* imagem inteira, sem esticar nem cortar: as fotos do catálogo têm tamanhos variados */
+  .pc-img img { width: 100%; height: 100%; object-fit: contain; transition: transform 1s var(--ease-out); }
+  .pc:hover .pc-img img { transform: scale(1.03); }
+  .volt { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 3px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.02em; background: var(--warm); color: var(--night); }
+  .pc-body { display: flex; flex-direction: column; flex: 1; padding: 16px 16px 16px; }
+  h4 { font-size: 1rem; font-weight: 500; line-height: 1.25; }
+  .detail { font-size: 0.85rem; opacity: 0.7; margin-top: 4px; line-height: 1.35; }
+  .price { margin-top: auto; padding-top: 14px; font-weight: 600; font-size: 0.98rem; font-variant-numeric: tabular-nums; }
+  .price.ask { font-weight: 400; font-size: 0.86rem; opacity: 0.72; }
+  .dark .price:not(.ask) { color: var(--warm); }
+  .sold { position: absolute; top: 10px; right: 10px; padding: 4px 10px; border-radius: 3px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; background: var(--ink); color: #fff; }
+  .dark .sold { background: #fff; color: var(--night); }
+  .out .pc-img img { filter: grayscale(1); opacity: 0.55; }
+  .out .price { color: var(--ink-3); font-weight: 500; }
+  .dark.out .price { color: rgba(243, 238, 230, 0.6); }
+</style>

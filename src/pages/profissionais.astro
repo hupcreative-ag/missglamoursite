@@ -1,0 +1,232 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { wa, store, fullAddress } from '../config/site';
+import { proLines } from '../config/media';
+
+/**
+ * Página de SEO local/GEO: o que a loja tem pra profissional, por categoria.
+ * Só citar produto que aparece nas fotos da loja ou nos materiais do cliente.
+ */
+const details: Record<string, { h2: string; intro: string; groups: { h3?: string; items: string[] }[]; msg: string }> = {
+  nail: {
+    h2: 'Materiais para nail designer',
+    intro: 'Esmalte em gel, gel sólido, base, top coat, tips e decoração pra alongamento e manutenção de unhas. Marcas como D&Z, Dafu, Risqué e Impala passam pela prateleira, com reposição toda semana.',
+    groups: [
+      { h3: 'Géis e esmaltes', items: ['Esmalte em gel', 'Gel sólido', 'Gel base', 'Esmalte magnético e ímã', 'Esmaltes tradicionais'] },
+      { h3: 'Preparação e acabamento', items: ['Base', 'Top coat', 'Tips e unhas postiças', 'Pedrarias e decoração', 'Luminária de bancada'] },
+    ],
+    msg: 'Oi, Miss! Sou nail designer e quero fazer um pedido: ',
+  },
+  lash: {
+    h2: 'Insumos para lash designer',
+    intro: 'Cílios pra todas as técnicas de extensão, tufos, cílios postiços e kits de lash lifting. Tudo pra você atender sem parar a agenda esperando entrega de fora.',
+    groups: [{ items: ['Tufos pra extensão', 'Cílios em bandeja', 'Cílios postiços', 'Kit de lash lifting', 'Espuma de limpeza'] }],
+    msg: 'Oi, Miss! Sou lash designer e quero fazer um pedido: ',
+  },
+  sobrancelha: {
+    h2: 'Produtos para design de sobrancelha',
+    intro: 'Henna, pinça profissional e lápis pra montar ou repor o kit de quem trabalha com design de sobrancelha.',
+    groups: [{ items: ['Henna', 'Pinça profissional', 'Lápis'] }],
+    msg: 'Oi, Miss! Sou designer de sobrancelha e quero fazer um pedido: ',
+  },
+  maquiagem: {
+    h2: 'Maquiagem para maquiadoras',
+    intro: 'Linhas completas de maquiagem pra quem atende cliente e pra quem ama make. Batom, gloss, delineador, glitter, paletas e pincéis, com novidade toda semana.',
+    groups: [{ items: ['Batom', 'Gloss', 'Delineador colorido', 'Glitter', 'Paletas', 'Pincéis'] }],
+    msg: 'Oi, Miss! Sou maquiadora e quero fazer um pedido: ',
+  },
+  ferramentas: {
+    h2: 'Alicates e ferramentas para manicure',
+    intro: 'Alicate de cutícula, espátula, lixa e pinça de qualidade profissional, incluindo a linha Staleks. Ferramenta boa faz diferença no resultado e na sua mão.',
+    groups: [{ items: ['Alicate de cutícula', 'Espátula', 'Lixa', 'Pinça'] }],
+    msg: 'Oi, Miss! Quero ver alicates e ferramentas: ',
+  },
+  depilacao: {
+    h2: 'Produtos para depilação',
+    intro: 'Cera e acessórios pra quem trabalha com depilação. O estoque muda rápido, então chama no WhatsApp e a gente te diz o que tem hoje.',
+    groups: [],
+    msg: 'Oi, Miss! Quero saber o que vocês têm pra depilação: ',
+  },
+};
+
+const faq = [
+  { q: 'A Miss Glamour faz unha, cílios ou sobrancelha?', a: 'Não. A Miss Glamour é loja e fornecedora de materiais. A gente vende os insumos pra quem faz o atendimento.' },
+  { q: 'Onde comprar insumo de unha e cílios em Salvador?', a: `Na Miss Glamour, na ${store.address.street}, centro de Salvador. Ou pelo WhatsApp com entrega no mesmo dia.` },
+  { q: 'A entrega é no mesmo dia?', a: 'É sim. Pedido até 10h chega hoje em Salvador, Lauro de Freitas e Simões Filho.' },
+  { q: 'Quanto custa a entrega?', a: 'Depende do bairro. A gente passa o valor antes de fechar o pedido.' },
+  { q: 'Tem preço especial pra compra maior?', a: 'Tem valores especiais pra compras maiores. Manda sua lista no WhatsApp que a gente faz o orçamento.' },
+  { q: 'Posso retirar na loja?', a: 'Pode. De segunda a sexta das 8h às 18h e no sábado das 8h às 16h.' },
+  { q: 'Quais as formas de pagamento?', a: 'Pix, cartão de crédito, débito e dinheiro.' },
+];
+
+const url = `${store.url}/profissionais`;
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': url,
+    url,
+    name: 'Fornecedor de insumos para profissionais da beleza em Salvador',
+    about: { '@id': `${store.url}/#loja` },
+    inLanguage: 'pt-BR',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: store.url },
+      { '@type': 'ListItem', position: 2, name: 'Profissionais', item: url },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Categorias de insumos de beleza',
+    itemListElement: proLines.map((l, i) => ({ '@type': 'ListItem', position: i + 1, name: l.title, url: `${url}#${l.id}` })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+
+const facts = [
+  { icon: 'pin' as const, text: fullAddress },
+  { icon: 'clock' as const, text: 'Seg a sex 8h às 18h e sáb 8h às 16h' },
+  { icon: 'truck' as const, text: 'Pedido até 10h chega no mesmo dia' },
+  { icon: 'card' as const, text: 'Pix, cartão e dinheiro' },
+];
+---
+<Base
+  title="Fornecedor de Insumos de Nail, Lash e Beleza em Salvador | Miss Glamour"
+  description="Fornecedor de materiais pra nail designer, lash designer, sobrancelha, maquiagem e depilação no centro de Salvador. Pedido até 10h pelo WhatsApp chega no mesmo dia."
+  image="/img/pro/nail.webp"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(ld)} />
+
+  <section class="top">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><span>Profissionais</span></nav>
+      <h1 class="display">Fornecedor de insumos pra profissional da beleza em Salvador</h1>
+      <p class="lead">A Miss Glamour fornece insumos e materiais pra nail designer, lash designer, designer de sobrancelha, maquiadora e depiladora. A loja fica na Av. Sete de Setembro e o pedido feito até 10h pelo WhatsApp chega no mesmo dia em Salvador, Lauro de Freitas e Simões Filho.</p>
+      <ul class="facts">{facts.map((f) => <li><Icon name={f.icon} /><span>{f.text}</span></li>)}</ul>
+      <a class="btn btn-wa" href={wa('Oi, Miss! Sou profissional e quero fazer um pedido: ')} target="_blank" rel="noopener" data-hero-cta>
+        <span class="wa-dot" aria-hidden="true"></span> Pedir pelo WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <nav class="jump" aria-label="Categorias">
+    <ul class="wrap">
+      {proLines.map((l) => <li><a href={`#${l.id}`}><Icon name={l.icon} />{l.title}</a></li>)}
+    </ul>
+  </nav>
+
+  {proLines.map((l, i) => {
+    const d = details[l.id];
+    return (
+      <section id={l.id} class:list={['cat', i % 2 ? 'pink' : 'blue']}>
+        <div class="wrap cat-grid">
+          <figure class="ph">
+            {l.img ? <img src={l.img} alt={l.alt} loading="lazy" width="640" height="640" /> : <span class="no-img"><Icon name={l.icon} /></span>}
+          </figure>
+          <div class="cat-copy">
+            <h2 class="display h2"><Icon name={l.icon} class="h-ico" />{d.h2}</h2>
+            <p class="intro">{d.intro}</p>
+            {d.groups.map((g) => (
+              <div class="group">
+                {g.h3 && <h3>{g.h3}</h3>}
+                <ul class="items">{g.items.map((it) => <li>{it}</li>)}</ul>
+              </div>
+            ))}
+            <a class="btn btn-wa" href={wa(d.msg)} target="_blank" rel="noopener"><Icon name="whatsapp" /> Pedir {l.title.toLowerCase()}</a>
+          </div>
+        </div>
+      </section>
+    );
+  })}
+
+  <section class="faq">
+    <div class="wrap faq-grid">
+      <h2 class="display h2">Perguntas frequentes</h2>
+      <div>
+        {faq.map((f) => (
+          <details>
+            <summary><span>{f.q}</span><Icon name="plus" /></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="more">
+    <div class="wrap more-in">
+      <a href="/#como-comprar"><Icon name="truck" />Como funciona a entrega</a>
+      <a href="/#loja"><Icon name="pin" />Como chegar na loja</a>
+      <a href="/natal"><Icon name="spark" />Decoração de Natal</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .top { padding: clamp(28px, 5vw, 72px) 0 clamp(36px, 5vw, 64px); background: var(--blue); }
+  .crumbs { display: flex; gap: 8px; font-size: 0.9rem; color: var(--ink-2); margin-bottom: 18px; }
+  .crumbs a { color: var(--ink); }
+  h1 { font-size: clamp(2.3rem, 5.6vw, 4.4rem); max-width: 18ch; }
+  .top .lead { color: var(--ink); margin: 18px 0 22px; max-width: 54ch; }
+  .facts { display: grid; grid-template-columns: repeat(2, minmax(0, max-content)); gap: 10px 28px; margin-bottom: 26px; }
+  .facts li { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+  .facts :global(svg) { width: 22px; height: 22px; flex: none; color: var(--teal); }
+
+  .jump { position: sticky; top: 76px; z-index: 20; background: #fff; border-bottom: 1px solid var(--line); }
+  .jump ul { display: flex; gap: 8px; overflow-x: auto; padding-block: 10px; scrollbar-width: none; }
+  .jump ul::-webkit-scrollbar { display: none; }
+  .jump a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; white-space: nowrap; font-weight: 500; font-size: 0.95rem; }
+  .jump a:hover { border-color: var(--ink); }
+  .jump :global(svg) { width: 18px; height: 18px; color: var(--pink-ink); }
+
+  .cat { padding: var(--sec-y) 0; scroll-margin-top: 130px; }
+  .cat.blue { background: var(--mist); }
+  .cat.pink { background: var(--pink-soft); }
+  .cat-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 72px); align-items: center; }
+  .cat.pink .ph { order: 2; }
+  .ph { margin: 0; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: #fff; }
+  .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .no-img { display: grid; place-items: center; width: 100%; height: 100%; }
+  .no-img :global(svg) { width: 36%; height: auto; color: var(--pink-ink); stroke-width: 1.2; }
+  .cat h2 { display: flex; align-items: center; gap: 12px; }
+  .cat h2 :global(.h-ico) { width: 0.8em; height: 0.8em; color: var(--pink-ink); flex: none; }
+  .intro { margin: 12px 0 18px; color: var(--ink-2); font-size: 1.08rem; max-width: 46ch; }
+  .group { margin-bottom: 16px; }
+  .group h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 8px; }
+  .items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .items li { min-height: 40px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 999px; background: #fff; font-size: 0.95rem; }
+  .cat .btn { margin-top: 10px; }
+
+  .faq { padding: var(--sec-y) 0; }
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr); gap: 24px clamp(32px, 6vw, 96px); align-items: start; }
+  details { border-top: 1px solid var(--line); }
+  details:last-child { border-bottom: 1px solid var(--line); }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 60px; padding: 12px 0; cursor: pointer; list-style: none; font-size: 1.05rem; font-weight: 500; }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(svg) { width: 22px; height: 22px; flex: none; transition: transform 0.4s var(--ease-out); }
+  details[open] summary :global(svg) { transform: rotate(45deg); }
+  details p { padding: 0 32px 18px 0; color: var(--ink-2); }
+
+  .more { padding: 0 0 var(--sec-y); }
+  .more-in { display: flex; flex-wrap: wrap; gap: 10px; }
+  .more a { display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 20px; border-radius: 999px; background: var(--mist); text-decoration: none; font-weight: 500; }
+  .more :global(svg) { width: 20px; height: 20px; color: var(--pink-ink); }
+
+  @media (max-width: 860px) {
+    .jump { top: 64px; }
+    .cat-grid, .faq-grid { grid-template-columns: 1fr; }
+    .cat.pink .ph { order: 0; }
+    .ph { aspect-ratio: 16 / 10; }
+    .facts { grid-template-columns: 1fr; }
+    .top .btn, .cat .btn { width: 100%; }
+  }
+</style>

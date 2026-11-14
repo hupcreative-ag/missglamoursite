@@ -1,0 +1,22 @@
+---
+/** Wordmark da Miss Glamour em Belleza (mesma letra do logo oficial). */
+interface Props { tagline?: boolean; class?: string }
+const { tagline = false, class: cls } = Astro.props;
+---
+<span class:list={['logo', cls]}>
+  <span class="logo-word">MISS GLAMOUR</span>
+  {tagline && <span class="logo-tag">A beleza que você merece!</span>}
+</span>
+
+<style>
+  .logo { display: inline-flex; flex-direction: column; align-items: stretch; line-height: 1; }
+  .logo-word {
+    font-family: var(--logo);
+    font-size: 1.32rem;
+    letter-spacing: 0.02em;
+    padding-bottom: 6px;
+    border-bottom: 1px solid currentColor;
+    white-space: nowrap;
+  }
+  .logo-tag { font-family: var(--sans); font-size: 0.82rem; margin-top: 7px; letter-spacing: 0.01em; opacity: 0.85; }
+</style>

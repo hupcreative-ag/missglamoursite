@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Profissionais from '../components/Profissionais.astro';
+import ComoComprar from '../components/ComoComprar.astro';
+import SeasonFeature from '../components/SeasonFeature.astro';
+import Universos from '../components/Universos.astro';
+import Loja from '../components/Loja.astro';
+import Faq from '../components/Faq.astro';
+import { season } from '../seasons';
+---
+<Base
+  title="Miss Glamour | Insumos de beleza e decoração em Salvador"
+  description="Loja de beleza na Av. Sete de Setembro, centro de Salvador. Insumos de nail, lash, sobrancelha e make, acessórios e decoração de Natal. Pedido até 10h pelo WhatsApp chega no mesmo dia."
+>
+  <Hero />
+  <Profissionais />
+  <ComoComprar />
+  {season && <SeasonFeature />}
+  <Universos />
+  <Loja />
+  <Faq />
+</Base>

@@ -1,0 +1,146 @@
+---
+import { wa } from '../config/site';
+import { heroReel } from '../config/media';
+import { season } from '../seasons';
+import DeliveryBadge from './DeliveryBadge.astro';
+
+const base = {
+  title: ['Tudo pra sua', 'bancada no centro', 'de Salvador.'],
+  lead: 'Insumos de beleza, acessórios e decoração de festa num lugar só.',
+};
+const hero = season?.hero ?? base;
+const last = hero.title.length - 1;
+
+// três faixas de fotos passando, cada uma começando num ponto diferente
+const rows = [0, 1, 2].map((r) => {
+  const shift = Math.round((heroReel.length / 3) * r);
+  return heroReel.slice(shift).concat(heroReel.slice(0, shift));
+});
+---
+<section class="hero" data-hero>
+  <div class="reel" aria-hidden="true">
+    {rows.map((row, r) => (
+      <div class={`row row-${r}`}>
+        {[0, 1].map(() => (
+          <ul>{row.map((src) => <li><img src={src} alt="" width="360" height="450" loading="lazy" decoding="async" /></li>)}</ul>
+        ))}
+      </div>
+    ))}
+  </div>
+  <div class="veil" aria-hidden="true"></div>
+
+  <div class="wrap hero-grid">
+    <div class="copy">
+      <h1 class="display title">
+        {hero.title.map((l, i) => (
+          <span class="line-mask"><span>{i === last ? <span class="mark">{l}</span> : l}</span></span>
+        ))}
+      </h1>
+      <p class="lead" data-hero-fade>{hero.lead}</p>
+      <div class="ctas" data-hero-fade data-hero-cta>
+        <a class="btn btn-wa" href={wa('Oi, Miss! Vim pelo site e quero fazer um pedido.')} target="_blank" rel="noopener">
+          <span class="wa-dot" aria-hidden="true"></span> Pedir pelo WhatsApp
+        </a>
+        <a class="link-loja" href="#loja">Ver a loja</a>
+      </div>
+    </div>
+
+    <div class="stage">
+      <button type="button" class="tilt" data-hero-tilt aria-label="Brincar com a mascote da Miss Glamour">
+        <span class="hop" data-hero-mascot data-hero-hop>
+        <img
+          class="mascot"
+          src="/img/mascote-busto.webp"
+          srcset="/img/mascote-busto-sm.webp 520w, /img/mascote-busto.webp 1000w"
+          sizes="(max-width: 960px) 80vw, 560px"
+          alt="Mascote da Miss Glamour, uma sacola azul sorridente"
+          width="1000"
+          height="1017"
+          fetchpriority="high"
+        />
+        <span class="hit"></span>
+        </span>
+      </button>
+      <div class="burst" aria-hidden="true" data-hero-burst></div>
+      <div class="badge-wrap" data-hero-sticker><DeliveryBadge /></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative; isolation: isolate; overflow: clip;
+    background: var(--blue);
+    display: flex; align-items: stretch;
+    min-height: clamp(560px, calc(100svh - 100px), 760px);
+  }
+
+  /* Vitrine passando ao fundo, tingida de azul pelo multiply */
+  .reel {
+    position: absolute; inset: -8% -12%; z-index: -2;
+    display: grid; grid-template-rows: repeat(3, 1fr); gap: 14px;
+    transform: rotate(-6deg);
+  }
+  .row { display: flex; width: max-content; min-height: 0; animation: slide 80s linear infinite; }
+  .row-1 { animation-direction: reverse; animation-duration: 92s; }
+  .row-2 { animation-duration: 104s; }
+  .row ul { display: flex; gap: 14px; padding-right: 14px; height: 100%; }
+  .row li { height: 100%; aspect-ratio: 4 / 5; border-radius: 10px; overflow: hidden; }
+  .row img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.1) brightness(1.05); mix-blend-mode: multiply; opacity: 0.6; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+
+  /* Véu: limpa a área do texto e deixa a vitrine aparecer atrás da mascote */
+  .veil {
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(90deg, var(--blue) 0%, var(--blue) 32%, rgba(151, 211, 224, 0.85) 46%, rgba(151, 211, 224, 0.1) 70%, rgba(151, 211, 224, 0) 100%);
+  }
+
+  .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 24px; }
+  .copy { position: relative; z-index: 1; align-self: center; padding-block: clamp(48px, 6vw, 88px); }
+  .title { font-size: clamp(3rem, 6.2vw, 5.6rem); }
+  .lead { margin: 20px 0 32px; color: var(--ink); font-size: clamp(1.1rem, 0.6vw + 1rem, 1.35rem); max-width: 30ch; }
+  .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; }
+  .ctas .btn-wa { --h: 60px; padding: 0 32px; font-size: 1.05rem; }
+  .link-loja { display: inline-flex; align-items: center; min-height: 48px; font-weight: 500; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  .link-loja:hover { color: var(--pink-ink); }
+
+  /* Mascote recortada na cintura, saindo da base do hero. O corte fica escondido na borda. */
+  .stage { position: relative; z-index: 2; min-height: 100%; perspective: 900px; }
+  .tilt {
+    position: absolute; bottom: 0; right: 4%;
+    width: min(92%, 560px); aspect-ratio: 1000 / 1017;
+    padding: 0; border: 0; background: none;
+    transform-origin: 50% 100%; will-change: transform;
+    pointer-events: none; -webkit-tap-highlight-color: transparent;
+  }
+  .hop { display: block; width: 100%; height: 100%; transform-origin: 50% 100%; }
+  .mascot { width: 100%; height: 100%; filter: drop-shadow(0 18px 24px rgba(20, 60, 75, 0.28)); user-select: none; }
+  /* área de toque só no corpo da sacola, pra não roubar o clique de quem está por perto */
+  .hit { position: absolute; inset: 22% 14% 0 14%; pointer-events: auto; cursor: pointer; border-radius: 16px; }
+  .tilt:focus-visible { outline: none; }
+  .tilt:focus-visible .hit { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .badge-wrap { position: absolute; right: -5%; top: 22%; width: clamp(170px, 15vw, 214px); }
+  .burst { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
+  .burst :global(svg) { position: absolute; width: 22px; height: 22px; }
+
+  @media (max-width: 960px) {
+    .hero { min-height: 0; }
+    .hero-grid { grid-template-columns: 1fr; gap: 0; }
+    .copy { padding: 30px 0 0; }
+    .veil { background: linear-gradient(180deg, var(--blue) 0%, var(--blue) 40%, rgba(151, 211, 224, 0.7) 58%, rgba(151, 211, 224, 0) 82%); }
+    /* a mascote sobe e passa por cima do canto do botão: dá profundidade */
+    .stage { height: clamp(260px, 70vw, 420px); min-height: 0; margin-top: clamp(-96px, -18vw, -64px); margin-inline: calc(-1 * var(--gutter)); pointer-events: none; }
+    .tilt { right: -2%; width: min(74%, 400px); }
+    .mascot { transform: scaleX(-1); }
+    .badge-wrap { left: var(--gutter); right: auto; top: auto; bottom: 14%; width: clamp(150px, 40vw, 200px); }
+  }
+  @media (max-width: 560px) {
+    .title { font-size: clamp(2.7rem, 12vw, 3.25rem); line-height: 0.98; }
+    .lead { margin: 14px 0 22px; font-size: 1.08rem; line-height: 1.45; max-width: 30ch; text-wrap: balance; }
+    .ctas .btn-wa { --h: 56px; padding: 0 24px; }
+    .link-loja { display: none; }
+    .reel { inset: 42% -40% -6%; gap: 10px; }
+    .row ul { gap: 10px; padding-right: 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .row { animation: none; } }
+</style>

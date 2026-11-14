@@ -1,0 +1,214 @@
+---
+import Icon from './Icon.astro';
+import ProductCard from './ProductCard.astro';
+import { wa } from '../config/site';
+import { season, catalog, findProduct } from '../seasons';
+
+const f = season!.feature;
+const highlights = (season!.highlights ?? []).map(findProduct).filter((p) => p !== null);
+const total = catalog?.categories.reduce((n, c) => n + c.products.length, 0) ?? 0;
+
+// Pisca-pisca: fio em "barriguinhas" com lâmpadas penduradas. Cada lâmpada pisca no seu ritmo.
+const W = 1600;
+const SWAG = 200; // distância entre os pontos onde o fio prende
+const PER = 5; // lâmpadas por barriguinha
+const palette = ['#ffd36b', '#ff3d55', '#36e08a', '#4db8ff', '#ff7ad6'];
+let seed = 7;
+const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+const wireParts: string[] = [];
+const bulbs: { x: number; y: number; r: number; c: string; d: number; delay: number }[] = [];
+for (let x0 = -SWAG / 2, k = 0; x0 < W + SWAG; x0 += SWAG, k++) {
+  const x1 = x0 + SWAG;
+  const yTop = 10;
+  const sag = 34;
+  wireParts.push(`${k ? '' : `M${x0} ${yTop} `}Q${x0 + SWAG / 2} ${yTop + sag * 2} ${x1} ${yTop}`);
+  for (let i = 1; i <= PER; i++) {
+    const t = i / (PER + 1);
+    const x = (1 - t) * (1 - t) * x0 + 2 * (1 - t) * t * (x0 + SWAG / 2) + t * t * x1;
+    const y = (1 - t) * (1 - t) * yTop + 2 * (1 - t) * t * (yTop + sag * 2) + t * t * yTop;
+    bulbs.push({
+      x, y,
+      r: (t - 0.5) * 50 + (rnd() - 0.5) * 16,
+      c: palette[bulbs.length % palette.length],
+      d: 1.4 + rnd() * 2.2,
+      delay: -rnd() * 4,
+    });
+  }
+}
+const wire = wireParts.join(' ');
+// título em 2 linhas equilibradas
+const words = f.title.split(' ');
+const mid = Math.ceil(words.length / 2);
+const titleLines = [words.slice(0, mid).join(' '), words.slice(mid).join(' ')].filter(Boolean);
+---
+<section id="temporada" class="season">
+  <div class="night" data-night>
+    <svg class="garland" viewBox="0 0 1600 120" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+      <defs>
+        <filter id="glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="7" /></filter>
+      </defs>
+      <path d={wire} fill="none" stroke="#1f3a2c" stroke-width="2.4" stroke-linecap="round" />
+      {bulbs.map((b) => (
+        <g class="bulb" style={`--c:${b.c};--d:${b.d.toFixed(2)}s;--delay:${b.delay.toFixed(2)}s`} transform={`translate(${b.x.toFixed(1)} ${b.y.toFixed(1)}) rotate(${b.r.toFixed(1)})`}>
+          <circle class="halo" cx="0" cy="15" r="17" filter="url(#glow)" />
+          <rect class="cap" x="-3.4" y="-1" width="6.8" height="7" rx="1.4" />
+          <path class="glass" d="M0 5.5 C 6.5 7 7.4 14 5.6 19.5 C 4.2 23.5 1.8 26 0 26 C -1.8 26 -4.2 23.5 -5.6 19.5 C -7.4 14 -6.5 7 0 5.5 Z" />
+          <ellipse class="shine" cx="-2.2" cy="12.5" rx="1.4" ry="3.6" />
+        </g>
+      ))}
+    </svg>
+
+    <div class="top">
+      <img
+        class="bg"
+        src="/img/natal/capa-velas-faixa.webp"
+        srcset="/img/natal/capa-velas-faixa-sm.webp 800w, /img/natal/capa-velas-faixa.webp 1333w"
+        sizes="(max-width: 960px) 100vw, 60vw"
+        alt="Velas de Natal acesas em formato de Papai Noel, boneco de neve e pinheiro"
+        width="1333" height="900" loading="lazy"
+      />
+    <div class="wrap grid">
+      <div class="copy">
+        <h2 class="display h2" data-split>
+          {titleLines.map((l) => <span class="line-mask"><span>{l}</span></span>)}
+        </h2>
+        <p class="lead">{f.lead}</p>
+
+        <ul class="facts">
+          {f.countdownTo && (
+            <li class="cd" data-countdown={f.countdownTo}>
+              <Icon name="calendar" />
+              <span><b class="tnum" data-cd="d">--</b> dias <b class="tnum" data-cd="h">--</b>h <b class="tnum" data-cd="m">--</b>min pro Natal</span>
+            </li>
+          )}
+          <li><Icon name="spark" />{f.honesty}</li>
+          {catalog && <li><Icon name="tag" />{total} peças com preço na tela</li>}
+        </ul>
+
+        <div class="ctas">
+          {catalog && <a class="btn btn-light" href={`/${catalog.slug}`}>Ver as {total} peças <Icon name="arrow" /></a>}
+          <a class="btn btn-gold" href={wa('Oi, Miss! Vi o catálogo de Natal no site e quero decorar. Pode me ajudar?')} target="_blank" rel="noopener">
+            <Icon name="whatsapp" /> Quero decorar
+          </a>
+        </div>
+      </div>
+
+    </div>
+    </div>
+
+    {highlights.length > 0 && (
+      <div class="rail-wrap">
+        <div class="wrap rail-head">
+          <h3 class="display">Destaques da loja</h3>
+          <div class="arrows">
+            <button type="button" data-rail="rail-natal" data-dir="-1" aria-label="Anterior"><Icon name="arrow" class="flip" /></button>
+            <button type="button" data-rail="rail-natal" data-dir="1" aria-label="Próximo"><Icon name="arrow" /></button>
+          </div>
+        </div>
+        <ul class="rail" id="rail-natal" data-drag>
+          {highlights.map((p) => <li><ProductCard product={p} dark /></li>)}
+          {catalog && (
+            <li class="more">
+              <a href={`/${catalog.slug}`}>
+                <span class="display">+{total - highlights.length}</span>
+                <span>peças no catálogo completo</span>
+                <Icon name="arrow" />
+              </a>
+            </li>
+          )}
+        </ul>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .season { padding: 0; }
+  .night {
+    position: relative;
+    background: radial-gradient(120% 80% at 80% 0%, #1b2630 0%, var(--night) 55%) var(--night);
+    color: #f3eee6;
+    padding: clamp(72px, 8vw, 120px) 0 var(--sec-y);
+    overflow: hidden;
+  }
+  .garland { position: absolute; z-index: 3; top: 0; left: 0; width: 100%; height: clamp(72px, 7.5vw, 120px); pointer-events: none; }
+  .bulb .cap { fill: #2c3a33; }
+  .bulb .glass { fill: #3a434c; transition: fill 0.4s; }
+  .bulb .halo { fill: var(--c); opacity: 0; transition: opacity 0.6s; }
+  .bulb .shine { fill: #fff; opacity: 0; }
+  .bulb:global(.on) .glass { fill: var(--c); animation: blink var(--d) steps(1, end) var(--delay) infinite; }
+  .bulb:global(.on) .halo { opacity: 0.9; animation: halo var(--d) ease-in-out var(--delay) infinite; }
+  .bulb:global(.on) .shine { opacity: 0.75; }
+  /* pisca de verdade: acende forte, apaga rápido, volta */
+  @keyframes blink { 0%, 62% { filter: brightness(1.25) saturate(1.2); opacity: 1; } 63%, 78% { filter: brightness(0.55); opacity: 0.55; } 79%, 100% { filter: brightness(1.25) saturate(1.2); opacity: 1; } }
+  @keyframes halo { 0%, 60% { opacity: 0.95; } 64%, 76% { opacity: 0.08; } 80%, 100% { opacity: 0.95; } }
+  @media (prefers-reduced-motion: reduce) { .bulb .glass, .bulb .halo { animation: none !important; } }
+
+  /* Foto das velas: fica só na área do texto (nunca atrás dos destaques) e esmaece no escuro.
+     O recorte da foto já é centrado nas velas. */
+  .top { position: relative; }
+  .bg {
+    position: absolute; top: 50%; translate: 0 calc(-50% - clamp(36px, 4vw, 60px));
+    right: max(0px, calc((100vw - var(--max)) / 2));
+    width: min(58vw, 980px); height: auto; aspect-ratio: 1333 / 900;
+    object-fit: cover;
+    /* esmaece as 4 bordas da própria foto: nenhuma linha aparece em tela larga */
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 24%, #000 82%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 16%, #000 78%, transparent 100%);
+    -webkit-mask-composite: source-in; mask-composite: intersect;
+    mask-image: linear-gradient(90deg, transparent 0%, #000 24%, #000 82%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 16%, #000 78%, transparent 100%);
+  }
+  .grid, .rail-wrap { position: relative; }
+  .grid { display: grid; grid-template-columns: minmax(0, min(520px, 40vw)); }
+  .night .lead { color: rgba(243, 238, 230, 0.8); margin: 16px 0 24px; }
+
+
+
+  .facts { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .facts li { display: flex; align-items: center; gap: 10px; color: rgba(243, 238, 230, 0.86); }
+  .facts :global(svg) { width: 20px; height: 20px; flex: none; color: var(--warm); }
+  .facts b { font-weight: 600; color: var(--warm); font-size: 1.08rem; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .ctas :global(.btn-gold) { background: var(--gold); color: var(--night); }
+  .ctas :global(.btn-gold:hover) { background: var(--warm); transform: translateY(-2px); }
+
+
+  .rail-wrap { margin-top: clamp(40px, 5vw, 72px); }
+  .rail-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+  .rail-head h3 { font-size: clamp(1.7rem, 2.6vw, 2.3rem); }
+  .arrows { display: flex; gap: 8px; }
+  .arrows button { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.22); background: transparent; color: #fff; display: grid; place-items: center; transition: background 0.3s, border-color 0.3s; }
+  .arrows button:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.5); }
+  .arrows :global(svg) { width: 20px; height: 20px; }
+  .arrows :global(.flip) { transform: scaleX(-1); }
+
+  .rail {
+    display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory;
+    padding: 4px max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))) 24px;
+    scroll-padding-inline: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+    scrollbar-width: none; cursor: grab;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail > li { flex: none; width: clamp(230px, 22vw, 300px); scroll-snap-align: start; }
+  .more a { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; height: 100%; min-height: 320px; padding: 24px; border-radius: var(--radius); border: 1px dashed rgba(255, 255, 255, 0.3); text-decoration: none; color: #fff; transition: background 0.3s; }
+  .more a:hover { background: rgba(255, 255, 255, 0.06); }
+  .more .display { font-size: 3.4rem; line-height: 1; color: var(--warm); }
+  .more :global(svg) { width: 22px; height: 22px; margin-top: 8px; }
+
+  @media (max-width: 960px) {
+    .grid { grid-template-columns: 1fr; }
+    /* no celular a foto vira uma faixa acima do título: as velas aparecem inteiras */
+    .bg {
+      position: relative; top: auto; left: auto; right: auto; bottom: auto; translate: none;
+      display: block; width: 100%; height: auto; aspect-ratio: 1333 / 900; margin-top: -24px;
+      -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 78%, transparent 100%);
+      mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 78%, transparent 100%);
+    }
+    .grid { margin-top: -28px; }
+    .night .wrap { padding-inline: 24px; }
+  }
+  @media (max-width: 560px) {
+    .ctas .btn { flex: 1 1 100%; }
+    .rail > li { width: 44vw; }
+    .rail { gap: 10px; padding-inline: 24px; scroll-padding-inline: 24px; }
+  }
+</style>

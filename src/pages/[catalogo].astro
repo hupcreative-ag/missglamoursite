@@ -1,0 +1,209 @@
+---
+/**
+ * Página do catálogo da campanha ativa (ex.: /natal).
+ * Só é gerada quando showCatalog = true e a campanha tem catálogo.
+ */
+import Base from '../layouts/Base.astro';
+import ProductCard from '../components/ProductCard.astro';
+import Icon from '../components/Icon.astro';
+import { wa, store } from '../config/site';
+import { catalog, season } from '../seasons';
+
+export function getStaticPaths() {
+  return catalog ? [{ params: { catalogo: catalog.slug } }] : [];
+}
+
+const c = catalog!;
+const all = c.categories.flatMap((cat) => cat.products);
+const total = all.length;
+const pageUrl = `${store.url}/${c.slug}`;
+
+// pra quem é: casa, loja e fachada (intenção de busca local)
+const uses = [
+  { icon: 'spark' as const, title: 'Pra sua casa', text: 'Árvore, pisca-pisca, vela e laço pra montar o Natal da família' },
+  { icon: 'bag' as const, title: 'Pra loja e vitrine', text: 'Peças que chamam o cliente e deixam o balcão no clima' },
+  { icon: 'pin' as const, title: 'Pra fachada', text: 'Cascatas e cortinas de LED que se veem de longe na rua' },
+];
+
+const faq = [
+  { q: 'Onde comprar decoração de Natal em Salvador?', a: `Na Miss Glamour, na ${store.address.street}, centro de Salvador. Também dá pra pedir pelo WhatsApp com entrega no mesmo dia pra pedidos até 10h.` },
+  { q: 'Tem decoração pra fachada e vitrine de loja?', a: 'Tem. Cascatas e cortinas de LED, cordões de pisca-pisca e peças maiores que funcionam bem em fachada, vitrine e balcão.' },
+  { q: 'Os pisca-piscas são bivolt?', a: 'Muitos são. A voltagem de cada peça aparece no card. Confira antes de pedir.' },
+  { q: 'Os preços estão atualizados?', a: 'Os preços são os da loja. Decoração de Natal chega uma vez só e acaba rápido, então confirme no WhatsApp antes de vir.' },
+  { q: 'Tem preço especial pra compra maior?', a: 'Tem valores especiais pra compras maiores. Manda sua lista no WhatsApp que a gente faz o orçamento.' },
+];
+
+const toNumber = (price: string) => Number(price.replace(/[^0-9,]/g, '').replace(',', '.'));
+const ld = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': pageUrl,
+    url: pageUrl,
+    name: 'Decoração de Natal em Salvador',
+    about: { '@id': `${store.url}/#loja` },
+    inLanguage: 'pt-BR',
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: total,
+      itemListElement: all.map((p, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'Product',
+          name: p.name,
+          description: p.detail,
+          image: `${store.url}/img/natal/${p.image}.webp`,
+          ...(p.price
+            ? { offers: { '@type': 'Offer', price: toNumber(p.price).toFixed(2), priceCurrency: 'BRL', availability: p.soldOut ? 'https://schema.org/OutOfStock' : 'https://schema.org/InStock', seller: { '@id': `${store.url}/#loja` } } }
+            : {}),
+        },
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Início', item: store.url },
+      { '@type': 'ListItem', position: 2, name: 'Decoração de Natal', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+<Base
+  title="Decoração de Natal em Salvador pra Casa, Loja e Fachada | Miss Glamour"
+  description={`Pisca-pisca, cascatas de LED, árvores, velas e fitas pra decorar casa, loja e fachada no Natal. ${total} peças com preço na Miss Glamour, centro de Salvador. Entrega no mesmo dia.`}
+  image={`/img/natal/${season!.feature.image}.webp`}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(ld)} />
+
+  <section class="cat-hero">
+    <img class="bg" src={`/img/natal/${season!.feature.image}.webp`} alt="" width="1333" height="2000" />
+    <div class="wrap inner" data-hero>
+      <nav class="crumbs" aria-label="Você está em"><a href="/">Início</a><span aria-hidden="true">/</span><span>Natal</span></nav>
+      <h1 class="display">
+        <span class="line-mask"><span>Decoração de Natal</span></span>
+        <span class="line-mask"><span class="yr">em Salvador</span></span>
+      </h1>
+      <p class="lead" data-hero-fade>{c.intro}</p>
+      <div class="ctas" data-hero-fade data-hero-cta>
+        <a class="btn btn-gold" href={wa('Oi, Miss! Vi a decoração de Natal no site e quero fazer um pedido.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> Pedir pelo WhatsApp</a>
+        <span class="count">{total} peças com preço na tela</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="uses">
+    <ul class="wrap uses-in">
+      {uses.map((u) => <li><Icon name={u.icon} /><div><h2>{u.title}</h2><p>{u.text}</p></div></li>)}
+    </ul>
+  </section>
+
+  <nav class="cat-nav" aria-label="Categorias do catálogo">
+    <ul class="wrap">
+      {c.categories.map((cat) => <li><a href={`#${cat.id}`}>{cat.title}</a></li>)}
+    </ul>
+  </nav>
+
+  <div class="cats">
+    {c.categories.map((cat) => (
+      <section id={cat.id} class="cat">
+        <div class="wrap">
+          <header class="cat-head">
+            <h2 class="display">{cat.title}</h2>
+            <p>{cat.lead}</p>
+          </header>
+          <ul class="grid" data-reveal>
+            {cat.products.map((p) => <li data-reveal-item><ProductCard product={p} /></li>)}
+          </ul>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <section class="faq">
+    <div class="wrap faq-grid">
+      <h2 class="display">Perguntas sobre a decoração de Natal</h2>
+      <div>
+        {faq.map((f) => (
+          <details>
+            <summary><span>{f.q}</span><Icon name="plus" /></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="close">
+    <div class="wrap close-in">
+      <h2 class="display">Gostou de alguma peça?</h2>
+      <p class="lead">Manda o nome ou um print pelo WhatsApp. A gente confirma se tem, separa e combina a entrega ou a retirada.</p>
+      <a class="btn btn-wa" href={wa('Oi, Miss! Vi a decoração de Natal no site e quero: ')} target="_blank" rel="noopener"><span class="wa-dot" aria-hidden="true"></span> Pedir pelo WhatsApp</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cat-hero { position: relative; overflow: hidden; background: var(--night); color: #f3eee6; padding: clamp(110px, 14vw, 200px) 0 clamp(70px, 8vw, 110px); }
+  .bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 60%; opacity: 0.55; }
+  .cat-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(12, 17, 22, 0.92) 0%, rgba(12, 17, 22, 0.55) 60%, rgba(12, 17, 22, 0.2) 100%); }
+  .inner { position: relative; z-index: 1; }
+  h1 { font-size: clamp(2.8rem, 8vw, 6.4rem); line-height: 0.95; }
+  .crumbs { display: flex; gap: 8px; font-size: 0.9rem; color: rgba(243, 238, 230, 0.7); margin-bottom: 18px; }
+  .crumbs a { color: #fff; }
+  .yr { color: var(--blue); }
+  .cat-hero .lead { color: rgba(243, 238, 230, 0.82); margin: 26px 0 32px; max-width: 52ch; }
+  .ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+  .btn-gold { background: var(--gold); color: var(--night); }
+  .btn-gold:hover { background: var(--warm); transform: translateY(-2px); }
+  .count { font-size: 0.92rem; color: rgba(243, 238, 230, 0.7); }
+
+  .cat-nav { position: sticky; top: 76px; z-index: 40; background: rgba(255, 255, 255, 0.96); border-bottom: 1px solid var(--line); }
+  .cat-nav ul { display: flex; gap: 8px; overflow-x: auto; padding-block: 12px; scrollbar-width: none; }
+  .cat-nav ul::-webkit-scrollbar { display: none; }
+  .cat-nav a { display: flex; align-items: center; min-height: 44px; white-space: nowrap; padding: 0 16px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-size: 0.92rem; transition: background 0.3s, border-color 0.3s; }
+  .cat-nav a:hover { background: var(--mist); border-color: var(--blue); }
+
+  .cat { padding: clamp(56px, 7vw, 96px) 0 0; scroll-margin-top: 140px; }
+  .cat-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 32px; margin-bottom: 28px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .cat-head h2 { font-size: clamp(2rem, 3.6vw, 3rem); }
+  .cat-head p { color: var(--ink-3); max-width: 52ch; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: clamp(12px, 1.4vw, 20px); }
+
+  .uses { padding: clamp(28px, 4vw, 48px) 0; background: var(--mist); }
+  .uses-in { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 28px; }
+  .uses li { display: flex; gap: 12px; align-items: flex-start; }
+  .uses :global(svg) { width: 26px; height: 26px; flex: none; color: var(--pink-ink); margin-top: 2px; }
+  .uses h2 { font-size: 1.05rem; font-weight: 600; }
+  .uses p { color: var(--ink-2); font-size: 0.95rem; }
+
+  .faq { padding: var(--sec-y) 0 0; }
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr); gap: 24px clamp(32px, 6vw, 96px); align-items: start; }
+  .faq h2 { font-size: clamp(2rem, 4vw, 3.2rem); }
+  details { border-top: 1px solid var(--line); }
+  details:last-child { border-bottom: 1px solid var(--line); }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 60px; padding: 12px 0; cursor: pointer; list-style: none; font-weight: 500; }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(svg) { width: 22px; height: 22px; flex: none; transition: transform 0.4s var(--ease-out); }
+  details[open] summary :global(svg) { transform: rotate(45deg); }
+  details p { padding: 0 32px 18px 0; color: var(--ink-2); }
+
+  .close { padding: var(--sec-y) 0; }
+  .close-in { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: clamp(32px, 5vw, 64px); border-radius: var(--radius); background: var(--blue); }
+  .close h2 { font-size: clamp(2.4rem, 5vw, 4rem); }
+  .close .lead { color: var(--ink); }
+
+  @media (max-width: 860px) {
+    .cat-nav { top: 64px; }
+    .uses-in, .faq-grid { grid-template-columns: 1fr; }
+    .cat-hero .btn { width: 100%; }
+  }
+  @media (max-width: 520px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

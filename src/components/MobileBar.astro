@@ -1,0 +1,50 @@
+---
+import Icon from './Icon.astro';
+import { wa, store } from '../config/site';
+---
+<div class="mbar" role="region" aria-label="Ações rápidas" data-mbar>
+  <a class="btn btn-wa" href={wa('Oi, Miss! Vim pelo site e quero fazer um pedido.')} target="_blank" rel="noopener">
+    <span class="wa-dot" aria-hidden="true"></span> Pedir no WhatsApp
+  </a>
+  <a class="btn btn-light" href={store.mapsUrl} target="_blank" rel="noopener" aria-label="Como chegar na loja">
+    <Icon name="pin" />
+  </a>
+</div>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-mbar]');
+  const heroCta = document.querySelector('[data-hero-cta]');
+  if (bar && heroCta && 'IntersectionObserver' in window) {
+    bar.setAttribute('data-hidden', '');
+    new IntersectionObserver(([e]) => {
+      const above = e.boundingClientRect.top < 0;
+      bar.toggleAttribute('data-hidden', e.isIntersecting || !above);
+    }).observe(heroCta);
+  }
+</script>
+
+<style>
+  .mbar { display: none; }
+  @media (max-width: 860px) {
+    .mbar {
+      position: fixed;
+      z-index: 70;
+      left: 12px;
+      right: 12px;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: var(--shadow-2);
+      border: 1px solid var(--line);
+      transition: transform 0.5s var(--ease-out), opacity 0.4s;
+    }
+    /* some enquanto o botão do topo está visível, pra não cobrir o CTA principal */
+    .mbar[data-hidden] { transform: translateY(140%); opacity: 0; pointer-events: none; }
+    .mbar .btn-wa { flex: 1; --h: 52px; }
+    .mbar .btn-light { --h: 52px; width: 52px; padding: 0; background: var(--blue-soft); }
+    :global(body) { padding-bottom: 86px; }
+  }
+</style>

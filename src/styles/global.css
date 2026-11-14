@@ -1,0 +1,179 @@
+@import '@fontsource/belleza/400.css';
+@import '@fontsource-variable/jost/index.css';
+
+/* ------------------------------------------------------------------
+   Tokens
+   Base = identidade Miss Glamour (azul claro + grafite + branco).
+   Temas sazonais sobrescrevem só os acentos via body[data-season].
+------------------------------------------------------------------- */
+:root {
+  --blue: #97d3e0;          /* azul da marca: campos de cor */
+  --blue-soft: #d4eef3;
+  --mist: #f1f9fb;
+  --teal: #1d6b7c;          /* azul p/ texto sobre branco (AA) */
+  --ink: #202328;           /* grafite */
+  --ink-2: #3f454d;
+  --ink-3: #5d646d;
+  --pink: #e2668f;          /* rosa do mascote (unhas, salto, boca) */
+  --pink-ink: #b0336a;      /* rosa p/ texto sobre branco (AA) */
+  --pink-soft: #fbe3ec;
+  --paper: #ffffff;
+  --line: rgba(32, 35, 40, 0.12);
+
+  /* acentos sazonais (padrão = marca) */
+  --accent: var(--teal);
+  --accent-ink: #ffffff;
+  --glow: var(--blue);
+  --night: #0c1116;
+  --night-2: #141b22;
+  --gold: #e3bb6a;
+  --red: #c42a33;
+  --warm: #ffd79a;
+
+  --display: 'Belleza', 'Jost Variable', sans-serif;   /* tipografia oficial da marca */
+  --logo: var(--display);
+  --sans: 'Jost Variable', 'Jost', system-ui, sans-serif;
+
+  --gutter: clamp(16px, 4.2vw, 56px);
+  --sec-y: clamp(56px, 7vw, 104px);      /* respiro vertical das seções */
+  --head-gap: clamp(20px, 3vw, 40px);    /* do título ao conteúdo */
+  --max: 1360px;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --shadow-1: 0 1px 2px rgba(20, 30, 40, 0.06), 0 8px 24px -8px rgba(20, 30, 40, 0.16);
+  --shadow-2: 0 2px 4px rgba(20, 30, 40, 0.06), 0 24px 60px -18px rgba(20, 40, 55, 0.32);
+
+  color-scheme: light;
+}
+
+body[data-season='natal'] {
+  --accent: #b8262f;
+  --glow: var(--warm);
+}
+
+/* ------------------------------------------------------------------
+   Base
+------------------------------------------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 96px;
+}
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: clamp(16px, 0.35vw + 15px, 18px);
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+img, video, svg { display: block; max-width: 100%; }
+img { height: auto; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+button { font: inherit; color: inherit; cursor: pointer; }
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+
+::selection { background: var(--pink); color: #fff; }
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 6px; }
+
+html { scrollbar-color: var(--blue) var(--mist); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--mist); }
+::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 10px; border: 2px solid var(--mist); }
+
+.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+
+.display {
+  font-family: var(--display);
+  font-weight: 400;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.h2 { font-size: clamp(2.15rem, 5vw, 4rem); line-height: 1; }
+.h3 { font-size: clamp(1.6rem, 2.6vw, 2.2rem); line-height: 1.02; }
+/* "grito" de vitrine, como nos posts da loja (NOVIDADE! REPOSIÇÃO!): caixa alta pesada em cinza,
+   primeira linha escura e as repetições mais claras */
+.shout { font-family: var(--sans); font-weight: 800; text-transform: uppercase; line-height: 1.02; letter-spacing: 0; color: #6d737a; }
+.shout > :first-child { color: var(--ink-2); }
+/* sublinhado rosa grosso: o traço do logo, na cor do mascote */
+.mark { text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 0.12em; text-underline-offset: 0.12em; text-decoration-skip-ink: none; }
+.lead { font-size: clamp(1.06rem, 0.5vw + 0.98rem, 1.25rem); line-height: 1.45; color: var(--ink-2); max-width: 46ch; text-wrap: pretty; }
+.small { font-size: 0.875rem; }
+.tnum { font-variant-numeric: tabular-nums; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ------------------------------------------------------------------
+   Botões
+------------------------------------------------------------------- */
+.btn {
+  --h: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: var(--h);
+  padding: 0 26px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.005em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.4s var(--ease-out), background-color 0.3s, color 0.3s, box-shadow 0.4s var(--ease-out), border-color 0.3s;
+  will-change: transform;
+}
+.btn svg { width: 20px; height: 20px; flex: none; }
+.btn:active { transform: scale(0.97); }
+
+.btn-wa { background: var(--ink); color: #fff; box-shadow: 0 10px 30px -12px rgba(20, 30, 40, 0.55); }
+.btn-wa:hover { background: var(--pink-ink); box-shadow: 0 16px 40px -14px rgba(20, 30, 40, 0.7); transform: translateY(-2px); }
+.btn-wa .wa-dot { width: 8px; height: 8px; border-radius: 50%; background: #3fd17a; box-shadow: 0 0 0 0 rgba(63, 209, 122, 0.7); animation: pulse 2.4s infinite; }
+
+.btn-ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+.btn-ghost:hover { border-color: var(--ink); background: rgba(255, 255, 255, 0.6); }
+
+.btn-light { background: #fff; color: var(--ink); }
+.btn-light:hover { background: var(--blue-soft); transform: translateY(-2px); }
+
+.btn-sm { --h: 44px; padding: 0 18px; font-size: 0.95rem; }
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(63, 209, 122, 0.6); }
+  70% { box-shadow: 0 0 0 9px rgba(63, 209, 122, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(63, 209, 122, 0); }
+}
+
+/* Status vivo (aberta / entrega hoje) */
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: #2fb468; flex: none; position: relative; }
+.live-dot::after { content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid #2fb468; opacity: 0.6; animation: ring 2s var(--ease-out) infinite; }
+.live-dot[data-state='off'] { background: #c9a227; }
+.live-dot[data-state='off']::after { border-color: #c9a227; }
+.live-dot[data-state='closed'] { background: #a0a6ad; }
+.live-dot[data-state='closed']::after { display: none; }
+@keyframes ring { from { transform: scale(0.6); opacity: 0.8; } to { transform: scale(1.6); opacity: 0; } }
+
+/* Revelação de texto em linhas (GSAP controla; sem JS fica visível) */
+.line-mask { display: block; overflow: hidden; padding-bottom: 0.2em; margin-bottom: -0.2em; }
+.line-mask > span { display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}

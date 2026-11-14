@@ -1,0 +1,120 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { wa, store } from '../config/site';
+import { season, catalog } from '../seasons';
+const home = Astro.url.pathname === '/' ? '' : '/';
+const links = [
+  { href: '/profissionais', label: 'Profissionais' },
+  ...(season ? [{ href: catalog ? `/${catalog.slug}` : `${home}#temporada`, label: season.name.split(' ')[0] }] : []),
+  { href: `${home}#como-comprar`, label: 'Como comprar' },
+  { href: `${home}#loja`, label: 'A loja' },
+];
+const menuLinks = [...links, { href: `${home}#duvidas`, label: 'Dúvidas' }];
+---
+<header class="hdr" data-header>
+  <div class="wrap hdr-in">
+    <a href="/" class="brand" aria-label="Miss Glamour, página inicial"><Logo /></a>
+    <nav class="nav-desk" aria-label="Principal">
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="btn btn-wa btn-sm wa-desk" href={wa('Oi, Miss! Vim pelo site e quero fazer um pedido.')} target="_blank" rel="noopener">
+      <Icon name="whatsapp" /> <span>WhatsApp</span>
+    </a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-btn>
+      <span class="bars" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-lbl">Menu</span>
+    </button>
+  </div>
+
+  <div class="menu" id="menu" data-menu hidden>
+    <nav class="wrap" aria-label="Menu">
+      <ul class="m-links">
+        {menuLinks.map((l) => <li><a href={l.href} data-menu-link>{l.label}<Icon name="arrow" /></a></li>)}
+      </ul>
+      <a class="btn btn-wa m-wa" href={wa('Oi, Miss! Vim pelo site e quero fazer um pedido.')} target="_blank" rel="noopener">
+        <span class="wa-dot" aria-hidden="true"></span> Pedir pelo WhatsApp
+      </a>
+      <div class="m-info">
+        <a href={store.mapsUrl} target="_blank" rel="noopener"><Icon name="pin" />{store.address.street}</a>
+        <a href={`https://instagram.com/${store.instagram}`} target="_blank" rel="noopener"><Icon name="instagram" />@{store.instagram}</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  if (btn && menu) {
+    const set = (open: boolean) => {
+      btn.setAttribute('aria-expanded', String(open));
+      document.documentElement.toggleAttribute('data-menu-open', open);
+      if (open) {
+        const bottom = btn.closest('header')?.getBoundingClientRect().bottom ?? 64;
+        menu.style.paddingTop = `${Math.max(64, bottom)}px`;
+        menu.hidden = false;
+        requestAnimationFrame(() => menu.setAttribute('data-open', ''));
+      } else {
+        menu.removeAttribute('data-open');
+        setTimeout(() => { if (btn.getAttribute('aria-expanded') === 'false') menu.hidden = true; }, 350);
+      }
+    };
+    btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+    menu.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => set(false)));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+  }
+</script>
+
+<style>
+  .hdr {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: #fff;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, box-shadow 0.4s;
+  }
+  .hdr[data-scrolled] { border-color: var(--line); box-shadow: 0 10px 30px -24px rgba(20, 30, 40, 0.4); }
+  .hdr-in { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 76px; background: #fff; }
+  .brand { text-decoration: none; color: var(--ink); }
+  .nav-desk ul { display: flex; gap: clamp(18px, 2.4vw, 36px); }
+  .nav-desk a { text-decoration: none; font-size: 0.97rem; color: var(--ink-2); position: relative; padding: 6px 0; }
+  .nav-desk a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: right; transition: transform 0.5s var(--ease-out); }
+  .nav-desk a:hover { color: var(--ink); }
+  .nav-desk a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  .menu-btn { display: none; align-items: center; gap: 10px; height: 48px; padding: 0 16px 0 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-weight: 500; font-size: 0.95rem; }
+  .bars { position: relative; width: 18px; height: 12px; }
+  .bars i { position: absolute; left: 0; right: 0; height: 2px; border-radius: 2px; background: var(--ink); transition: transform 0.4s var(--ease-out), top 0.4s var(--ease-out); }
+  .bars i:first-child { top: 1px; }
+  .bars i:last-child { top: 9px; }
+  .menu-btn[aria-expanded='true'] .bars i:first-child { top: 5px; transform: rotate(45deg); }
+  .menu-btn[aria-expanded='true'] .bars i:last-child { top: 5px; transform: rotate(-45deg); }
+
+  .menu {
+    position: fixed; inset: 0; z-index: 1; padding-top: 64px;
+    background: #fff; overflow-y: auto;
+    opacity: 0; transform: translateY(-12px);
+    transition: opacity 0.3s, transform 0.4s var(--ease-out);
+  }
+  .menu[data-open] { opacity: 1; transform: none; }
+  .m-links { margin: 12px 0 24px; }
+  .m-links a { display: flex; align-items: center; justify-content: space-between; min-height: 64px; border-bottom: 1px solid var(--line); text-decoration: none; font-family: var(--display); font-size: 1.9rem; }
+  .m-links :global(svg) { width: 22px; height: 22px; color: var(--pink-ink); }
+  .m-wa { width: 100%; }
+  .m-info { display: flex; flex-direction: column; gap: 4px; margin: 20px 0 40px; }
+  .m-info a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--ink-2); text-decoration: none; }
+  .m-info :global(svg) { width: 20px; height: 20px; color: var(--teal); }
+  :global(html[data-menu-open]) { overflow: hidden; }
+  :global(html[data-menu-open] [data-mbar]) { display: none !important; }
+
+  @media (max-width: 860px) {
+    .nav-desk, .wa-desk { display: none; }
+    .menu-btn { display: inline-flex; }
+    .hdr-in { height: 64px; }
+  }
+  @media (min-width: 861px) { .menu { display: none !important; } }
+</style>

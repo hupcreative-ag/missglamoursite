@@ -1,0 +1,94 @@
+---
+import Icon from './Icon.astro';
+import { wa, store } from '../config/site';
+const aisles = ['corredor-6', 'corredor-3', 'corredor-7', 'corredor-1', 'corredor-5', 'corredor-4'];
+---
+<section id="loja" class="loja">
+  <img class="bg" src="/img/loja/placa.webp" alt="Fachada da Miss Glamour na Avenida Sete de Setembro, em Salvador" loading="lazy" width="1350" height="1800" />
+  <div class="wrap top">
+    <div class="copy">
+      <h2 class="display h2" data-split>
+        <span class="line-mask"><span>Visite a nossa loja</span></span>
+      </h2>
+      <ul class="perks">
+        <li><Icon name="snow" />Loja grande e climatizada</li>
+        <li><Icon name="bag" />Equipe que te ajuda a achar o certo</li>
+      </ul>
+
+      <dl class="info" data-reveal>
+        <div data-reveal-item>
+          <dt><Icon name="pin" />Endereço</dt>
+          <dd>{store.address.street}<br />{store.address.complement}, {store.address.district}<br />{store.address.city}/{store.address.state}<br /><span class="ref">{store.address.reference}</span></dd>
+        </div>
+        <div data-reveal-item>
+          <dt><Icon name="clock" />Horário</dt>
+          <dd>
+            <p class="status"><span class="live-dot" aria-hidden="true"></span><span data-live="store">Seg a sex 8h às 18h</span></p>
+            <ul class="hours">
+              {store.hoursLabel.map((h) => <li><span>{h.days}</span><span class="tnum">{h.time}</span></li>)}
+            </ul>
+          </dd>
+        </div>
+      </dl>
+
+      <div class="ctas">
+        <a class="btn btn-wa" href={store.mapsUrl} target="_blank" rel="noopener"><Icon name="pin" /> Como chegar</a>
+      </div>
+    </div>
+
+  </div>
+
+  <ul class="aisles" data-drag aria-label="Fotos da loja">
+    {aisles.map((a) => <li><img src={`/img/loja/${a}.webp`} alt="Corredor da loja Miss Glamour" loading="lazy" width="1012" height="1800" /></li>)}
+  </ul>
+
+
+</section>
+
+<style>
+  .loja { position: relative; isolation: isolate; overflow: hidden; padding: var(--sec-y) 0; background: var(--blue); }
+  /* fachada como fundo, esmaecendo no azul da marca */
+  .bg {
+    position: absolute; z-index: -1; top: 0; right: 0; width: 58%; height: 100%;
+    object-fit: cover; object-position: 50% 30%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 45%), linear-gradient(180deg, #000 72%, transparent 100%);
+    -webkit-mask-composite: source-in; mask-composite: intersect;
+    mask-image: linear-gradient(90deg, transparent 0%, #000 45%), linear-gradient(180deg, #000 72%, transparent 100%);
+  }
+  .top { display: grid; grid-template-columns: minmax(0, 560px); }
+  .perks { display: flex; flex-direction: column; gap: 8px; margin: 18px 0 22px; }
+  .perks li { display: flex; align-items: center; gap: 10px; font-weight: 500; }
+  .perks :global(svg) { width: 22px; height: 22px; flex: none; color: var(--teal); }
+  .ref { font-size: 0.92rem; color: var(--ink-3); }
+  .info { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 22px 0; border-top: 1px solid rgba(32, 35, 40, 0.2); }
+  dt { display: flex; align-items: center; gap: 8px; font-weight: 500; margin-bottom: 10px; }
+  dt :global(svg) { width: 18px; height: 18px; }
+  dd { margin: 0; color: var(--ink-2); line-height: 1.5; }
+  .status { display: flex; align-items: center; gap: 10px; color: var(--ink); font-weight: 500; margin-bottom: 10px; }
+  .hours li { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; border-bottom: 1px dashed rgba(32, 35, 40, 0.18); font-size: 0.93rem; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+
+
+  .aisles {
+    display: flex; gap: 14px; overflow-x: auto; margin: clamp(32px, 5vw, 64px) 0 0;
+    padding-inline: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+    scrollbar-width: none; cursor: grab; scroll-snap-type: x proximity;
+  }
+  .aisles::-webkit-scrollbar { display: none; }
+  .aisles li { flex: none; width: clamp(200px, 21vw, 280px); aspect-ratio: 9 / 14; border-radius: var(--radius-sm); overflow: hidden; scroll-snap-align: start; }
+  .aisles img { width: 100%; height: 100%; object-fit: cover; }
+
+
+  @media (max-width: 960px) {
+    .top { grid-template-columns: 1fr; padding-top: clamp(180px, 46vw, 300px); }
+    .bg {
+      width: 100%; height: clamp(300px, 80vw, 480px); object-position: 50% 25%;
+      -webkit-mask-image: linear-gradient(180deg, #000 45%, transparent 100%); mask-image: linear-gradient(180deg, #000 45%, transparent 100%);
+    }
+    .aisles li { width: 160px; }
+  }
+  @media (max-width: 560px) {
+    .info { grid-template-columns: 1fr; }
+    .ctas .btn { flex: 1 1 100%; }
+  }
+</style>

@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+interface Props { text: string; cta: string; href: string }
+const { text, cta, href } = Astro.props;
+---
+<a class="ribbon" href={href}>
+  <span class="lights" aria-hidden="true">
+    {Array.from({ length: 5 }).map((_, i) => <i style={`--i:${i}`}></i>)}
+  </span>
+  <span class="txt">{text}</span>
+  <span class="cta">{cta}<Icon name="arrow" /></span>
+</a>
+
+<style>
+  .ribbon {
+    position: relative;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 42px;
+    padding: 8px var(--gutter);
+    background: var(--night);
+    color: #f4efe6;
+    font-size: 0.9rem;
+    text-decoration: none;
+    text-align: center;
+  }
+  .lights { display: inline-flex; gap: 5px; }
+  .lights i { width: 6px; height: 6px; border-radius: 50%; background: var(--warm); animation: twinkle 2.4s calc(var(--i) * 0.35s) infinite ease-in-out; }
+  .lights i:nth-child(2n) { background: var(--red); }
+  .lights i:nth-child(3n) { background: var(--blue); }
+  .cta { display: inline-flex; align-items: center; gap: 6px; color: var(--warm); font-weight: 500; white-space: nowrap; }
+  .cta :global(svg) { width: 16px; height: 16px; transition: transform 0.4s var(--ease-out); }
+  .ribbon:hover .cta :global(svg) { transform: translateX(4px); }
+  @keyframes twinkle { 0%, 100% { opacity: 0.35; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 10px currentColor; } }
+  @media (max-width: 640px) {
+    .ribbon { font-size: 0.8rem; gap: 10px; justify-content: space-between; text-align: left; }
+    .lights { display: none; }
+  }
+</style>

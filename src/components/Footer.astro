@@ -1,0 +1,58 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { wa, store } from '../config/site';
+const year = new Date().getFullYear();
+---
+<footer class="ft">
+  <div class="wrap">
+    <div class="big">
+      <div class="big-copy">
+        <p class="display">Bora, glamourosa?</p>
+        <a class="btn btn-light" href={wa('Oi, Miss! Vim pelo site.')} target="_blank" rel="noopener"><Icon name="whatsapp" /> {store.whatsappLabel}</a>
+      </div>
+      <img class="mascot" src="/img/mascote-busto-sm.webp" alt="" width="520" height="529" loading="lazy" />
+    </div>
+    <div class="cols">
+      <Logo tagline />
+      <div>
+        <p class="k">Loja</p>
+        <p>{store.address.street}, {store.address.complement}<br />{store.address.district}, {store.address.city}/{store.address.state}</p>
+      </div>
+      <div>
+        <p class="k">Horário</p>
+        <p>Seg a sex 8h às 18h<br />Sáb 8h às 16h</p>
+      </div>
+      <div>
+        <p class="k">Redes</p>
+        <a class="ig" href={`https://instagram.com/${store.instagram}`} target="_blank" rel="noopener"><Icon name="instagram" />@{store.instagram}</a>
+        <p class="k k2">Páginas</p>
+        <a href="/profissionais">Insumos pra profissional</a><br />
+        <a href="/natal">Catálogo de Natal</a>
+      </div>
+    </div>
+    <p class="legal">© {year} Miss Glamour Presentes & Acessórios · CNPJ 42.530.362/0001-34</p>
+  </div>
+</footer>
+
+<style>
+  .ft { background: var(--ink); color: #eef3f5; padding: clamp(48px, 6vw, 80px) 0 36px; }
+  /* A mascote, recortada na cintura, sai da linha do rodapé e aponta pro convite */
+  .big { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.16); }
+  .big-copy { padding-bottom: clamp(40px, 5vw, 72px); }
+  .big .display { font-size: clamp(2.6rem, 7vw, 6rem); line-height: 0.95; color: var(--blue); margin-bottom: clamp(20px, 2.4vw, 32px); }
+  .big .mascot { width: clamp(220px, 26vw, 380px); transform: scaleX(-1); margin-bottom: -1px; }
+  @media (max-width: 560px) {
+    .big { grid-template-columns: 1fr; }
+    .big-copy { padding-bottom: 32px; }
+    .big .display { font-size: clamp(2.2rem, 10vw, 2.6rem); max-width: 58%; }
+    .big .mascot { position: absolute; right: -8px; bottom: 0; width: 42vw; }
+  }
+  .cols { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 32px; padding: 44px 0; font-size: 0.95rem; color: rgba(238, 243, 245, 0.75); }
+  .k { color: #fff; font-weight: 500; margin-bottom: 8px; }
+  .cols a { color: #fff; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; }
+  .cols :global(svg) { width: 18px; height: 18px; }
+  .k2 { margin-top: 18px; }
+  .legal { font-size: 0.8rem; color: rgba(238, 243, 245, 0.5); }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr 1fr; } }
+</style>
