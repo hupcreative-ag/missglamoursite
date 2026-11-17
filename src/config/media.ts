@@ -73,9 +73,6 @@ export const proGallery: Record<string, Photo[]> = {
     'Cera depilatória hidrossolúvel em pote',
     'Cera depilatória quente em confetes',
     'Refil de cera roll-on',
-    'Aquecedor de cera digital',
-    'Aquecedor de cera roll-on duplo',
-    'Loção pós-depilação',
   ]),
   ferramentas: g('ferramentas', [
     'Tesoura de cutícula profissional na embalagem',
