@@ -9,6 +9,6 @@ export default defineConfig({
   // e deixa o navegador guardar em cache por 1 ano (ver public/_headers)
   build: { inlineStylesheets: 'never' },
   vite: { build: { assetsInlineLimit: 0 } },
-  // gera /sitemap-index.xml com todas as páginas (home, /profissionais, /natal)
-  integrations: [sitemap({ changefreq: 'weekly', lastmod: new Date(), filter: (page) => !page.includes('/404') })],
+  // gera /sitemap-index.xml com todas as páginas (home, /profissionais, /natal; /links fica de fora: é só a página da bio)
+  integrations: [sitemap({ changefreq: 'weekly', lastmod: new Date(), filter: (page) => !page.includes('/404') && !page.includes('/links') })],
 });

@@ -43,6 +43,21 @@ export interface Season {
     image: string;
     perks: { title: string; text: string }[];
   };
+  /**
+   * Banner decorativo da página de links da bio (/links). Só aparece quando a campanha
+   * tem catálogo ligado (showCatalog) e leva direto pra página do catálogo.
+   * A decoração (luzes, bandeirinhas, confete, morcegos…) vem do `theme`:
+   * natal · sao-joao · carnaval · halloween. Outro tema usa um brilho genérico.
+   */
+  bio?: {
+    kicker: string;
+    title: string;
+    text: string;
+    cta: string;
+    /** Caminho em /public. Foto escura/contrastada funciona melhor. */
+    image?: string;
+    imageAlt?: string;
+  };
   /** Destaques (nomes de imagem do catálogo) para o carrossel da home. */
   highlights?: string[];
   catalog?: Catalog;

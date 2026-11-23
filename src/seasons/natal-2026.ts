@@ -32,6 +32,14 @@ const natal: Season = {
       { title: 'Entrega hoje', text: 'pedido até 10h, em Salvador e região' },
     ],
   },
+  bio: {
+    kicker: 'Catálogo de Natal',
+    title: 'O Natal chegou na Miss',
+    text: 'Pisca-pisca, velas, árvores e laços com preço na tela',
+    cta: 'Ver catálogo',
+    image: '/img/natal/capa-velas-faixa-sm.webp',
+    imageAlt: 'Velas de Natal acesas em formato de Papai Noel, boneco de neve e pinheiro',
+  },
   highlights: [
     'cortina-fio-de-fada-bolas',
     'cascata-estrelas-warm',
